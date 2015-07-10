@@ -1,0 +1,40 @@
+/* registers for the AJC cards */
+
+/* For Sarcos Master Arm, leaving the fingers in manual mode */
+
+/* format: 
+   	keyword, 
+ 	position.cross.gain,
+	torque.cross.gain,
+	position.error.gain,
+	velocity.error.gain,
+	torque.error.gain,
+	plus.velocity.gain,
+	actual.position.gain.one,
+	actual.position.bias.one,
+	actual.position.gain.two,
+	actual.position.bias.two,
+	actual.torque.gain,
+	actual.torque.bias.fine,
+	actual.torque.bias.course,
+	tap.gain,
+	tap.threshold,
+	valve.gain,
+	valve.command,
+	gravity.compensation,
+	desired.position,
+	desired.torque
+*/
+
+R_SFE  412 412 0 0 1000 0 1744 3096 0 0 861 2042 2355 0 0 4095 1720 2048 2048 2048 
+R_SAA  412 412 0 0 900 0 2044 2703 0 0 847 1802 2149 0 0 4095 2053 2048 2048 2048 
+ R_HR  412 412 0 0 600 0 1138 3153 0 0 875 2208 1797 0 0 4095 2085 2048 2048 2048 
+ R_EB  412 412 0 0 1000 0 2044 2523 0 0 858 2318 2203 0 0 4095 1972 2048 2048 2048 
+ R_WR  412 412 0 0 2500 0 1114 3383 0 0 892 2174 1768 0 0 4095 1803 2048 2048 2048 
+R_WFE  412 412 0 0 350 0 2044 2300 0 0 895 2747 2048 0 0 4095 2170 2048 2048 2048 
+R_WAA  412 412 0 0 600 0 2277 2523 0 0 849 2187 1519 0 0 4095 1993 2048 2048 2048 
+ R_TL  412 0 50  20 300 0 3858 2762 0 0 873 2072 2113 0 0 4095 1728 2048 2048 2048 
+ R_TV  412 0 100 20 300 0 3066 2535 0 0 850 1908 2031 0 0 4095 2170 2048 2048 2048 
+R_FAA  412 0 75 10 200 0 4095 1957 0 0 820 3366 2334 0 0 4095 2433 2048 2048 2048 
+
+

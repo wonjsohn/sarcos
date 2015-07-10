@@ -1,0 +1,6 @@
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/clean-all.dir
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/doc.dir
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/xopengl.dir
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/xrtask.dir
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/xsimulation.dir
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64/CMakeFiles/xtask.dir

@@ -1,0 +1,14 @@
+// filter cutoff - viscous - coulomb- spring
+R_SFE 20 1 0 0
+R_SAA 20 1 0 0
+R_HR  20 1 0 0
+R_EB  20 1 0 0
+R_WR  20 1 0 0
+R_WFE 20 1 0 0
+R_WAA 20 1 0 0
+R_TL  20 1 0 0
+R_TV  20 1 0 0
+R_FAA 20 1 0 0
+
+
+

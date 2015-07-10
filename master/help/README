@@ -1,0 +1,289 @@
+Sun Apr 15 17:09:49 PDT 2001
+-----------------------------
+Calibrating the master:
+
+1) Bring the position sensors into the maximal range of amplifications
+   by finding the maximal slope and best offsets for the AJC values.
+   Afterwards, the calibration slopes in AtConfiguration.cf need to be
+   adjusted as:
+
+   slope =  20/4095 / (Pos.Gain/4095*5.11) / (1.152*2.235) * 340/10    /180 *pi
+            ^^^^^^^             ^^^^^^^^^     ^^^^^^^^^^^    ^^^^^     ^^^^^^^
+           20V=12bits 4095=5.11 amplif.     int.gains AJC  calib.slope  rad
+                                                           degrees/volt
+
+
+   The velocity slope in AtConfiguration.cf was the postion slope, multiplied
+   by 20 (I assume due to some internal amplification of the AJC board). 
+   Most often, the sign on the velocity slope needed to be reversed, but this
+   was not necessarily the truth. 
+
+   The final result needs to tested with MRDPLOT, checking whether the
+   sign on the position is right, and whether dth/dt = thd, i.e., numerical
+   differentiation of the position trace is identical to the measured 
+   velocity.
+
+   The offset of the position sensors in AtConfiguration.cf is more tricky
+   as it needs to be adjusted according to the moment arm of the linear
+   actuators. For rotary actuators, the offset can be arbitrary. For the
+   linear offsets, the function read_one_sensor on the motor_servo computes
+   the correct offset, ASSUMING that the SensorCalibration.cf file in the
+   user's directory has the correct information about which whether actuators,
+   sensors, and torque cells are linear or revolute.
+
+
+2) Adjusting the torque sensors and load calibration: Here the objective
+   is to get physically correct torque or force values from the actuator,
+   that are used for the SL software to generate the final and correct torque
+   reading and desired command.
+
+   An incoming signal from the strain gage runs through a fixed amplifier
+   with gain 251, then through DAC 30. The DAC 30 has a 12 bit gain 
+   amplification where 4095 = 5.11 multiplier. As usual, the Actual Torque
+   Gain on the AJC can be set arbitrarily to achieve maximal amplification
+   for A/D conversion. We use the maximal value of the torque cell for
+   adjustment.
+
+   The formula for the Acutal Torque Gain on the AJC is:
+
+   ActualTorqueGain =  10 [V] / (max.load * 10/Excite * r [mV/load] * 1.e-3) 
+                       / 251 * (4095/5.11)   
+
+                    =  Excite[V] / (max.load * r [mV/load] * 0.251) * 4095/5.11
+ 
+   where Excite = the load cell excitation voltage for the which the 
+                  calibration slope r was measure
+
+       max load = the maximal load that is anticipated for the load cell
+                  in units [load]
+                  (note that this is the absolute load, not signed)
+
+       r        = calibration slope in [mV/load]
+
+      1.e-3     = mV -> V conversion
+      251       = AJC internal amplification
+
+      4095/5.11 = conversion into integer amplification, using the DAC 30
+                  amplification slope
+
+
+    The AJC maps the voltage of the load cell into the range +/- 10V
+
+
+
+    In AtConfiguration, the torque or force value is recovered from the
+    AJC integer load reading as:
+
+    slope = max.load [load] / 2048 * load-converions
+
+    e.g., for inch-lbs: load-conversion = 0.0254[m] * 1/2.2 [kg] * 9.81[m/s^2]
+                                        = 0.11326090909091
+
+    
+3) Slope for desired torque:
+
+   The problem with the master is that linear actuator collaborate with
+   revolute load cells. However, given the way the AJC cards implement
+   the torque loop, there is no need to change anything -- the desired
+   torque slope in AtConfiguration.cf is the same as for the actual.torque.out.
+
+4) Tuning up the valve command and torque bias:
+
+   A new procedure was to 
+   - put the robot into PID control and adjust the position sensor offsets
+     in SensorOffsets.cf until the nominal posture is acuired
+
+   - in this nominal posture, use the valve command to make sure that
+     load reading and motor command u are the same
+
+   - then put the robot under PD control, plus feedforward commands 
+     from the inverse dynamics model, and adjust the torque bias
+     such that uff, u, and load are the same. Sometimes, a bit of valve
+     command adjustment is needed, too. Of course, this only works if
+     the feedforward command is assumed to be correct.
+
+5) Finally, tune the torque error gain such that the robot feels right,
+   i.e., shake it and make sure there is not high frequency noise.
+
+
+Fri Feb 26 11:46:50 JST 1999
+----------------------------
+
+Jumpers on AJC cards:
+---------------------
+- valve compensation is in to boost the torque loop gain (although
+  this can lead to instabilites, see head turn below)
+- velocity feedback signal needs to avoid the torque error gain, i.e,
+  "direct mode" according to SRC manual
+- high pass filtering in torque loop is out!
+
+
+The amplification gains from the torque loop:
+---------------------------------------------
+
+An incoming signal from the strain gage runs through a fixed amplifier
+with gain 251, then through DAC 30. The DAC 30 has a 12 bit gain amplification
+where 4095 = 5.11 multiplier.
+
+
+The load cells:
+---------------
+
+Before checking a load cell, check whether the AJC card is bad.
+
+
+Calibration of sensors and load cells:
+--------------------------------------
+
+Sensors:
+
+1) large linear sensors:
+
+   10/3  [Volt/inch]
+
+2) small linear sensors:
+
+  10/1   [Volt/inch]
+
+3) rotary sensors
+
+  10/340  [Volts/degree]
+
+
+Calibration of Torque Gains:
+----------------------------
+see above for multipliers
+
+formula is:
+
+torque gain =    10V / (max.load * r [mV/load] * 1.e-3) / 251 * (4095/5.11)
+
+  L_SFE  r = 0.04 mV/lbs  , max.load = 400,  tg = 1995
+  L_SAA  r = 0.04 mV/lbs  , max.load = 400,  tg = 1995
+  L_HR   r = 0.125 mV/in.lbs , max.load = 265 in.lbs, tg = 962
+  L_EB   r = 0.08 mV/lbs  , max.load = 200,  tg = 1995
+  L_WR   r = 0.125 mV/in.lbs , max.load = 133 in.lbs, tg = 1924
+  L_WFE  r = 1.58 mV/lbs  , max.load = 100,   tg = 202
+  L_WAA  r = 1.58 mV/lbs  , max.load = 100,   tg = 202
+
+  R_SFE  r = 0.04 mV/lbs  , max.load = 400,  tg = 1995
+  R_SAA  r = 0.04 mV/lbs  , max.load = 400,  tg = 1995
+  R_HR    r = 0.125 mV/in.lbs , max.load = 265 in.lbs, tg = 962
+  R_EB   r = 0.08 mV/lbs  , max.load = 200,  tg = 1995
+  R_WR   r = 0.125 mV/in.lbs , max.load = 133 in.lbs, tg = 1924
+  R_WFE  r = 1.58 mV/lbs  , max.load = 100,   tg = 202
+  R_WAA  r = 1.58 mV/lbs  , max.load = 100,   tg = 202
+
+  L_HFE  r = 0.04 mV/lbs  , max.load = 500,   tg = 1596
+  L_KFE  r = 0.01 mV/lbs  , max.load = 1800,   tg = 1773
+  L_AFE  r = 0.04 mV/lbs  , max.load = 500,   tg = 1596
+
+  R_HFE  r = 0.04 mV/lbs  , max.load = 500,   tg = 1596
+  R_KFE  r = 0.01 mV/lbs  , max.load = 1800,   tg = 1773
+  R_AFE  r = 0.04 mV/lbs  , max.load = 500,   tg = 1596
+
+  B_TFE  r = 0.04 mV/lbs  , max.load = 450,   tg = 1773
+  B_TAA  r = 0.04 mV/lbs  , max.load = 800,   tg = 998
+  B_TR   r = 0.04 mV/lbs  , max.load = 500,   tg = 1596
+
+  B_HN   r = 1.58 mV/lbs  , max.load = 200,   tg = 101
+  B_HT   r = 1.58 mV/lbs  , max.load = 200,   tg = 101
+  B_HR   r = 0.125 mV/in.lbs , max.load = 71 in.lbs, tg = 3606
+
+  L_EP   
+  L_ET   
+  R_EP   
+  R_ET   
+
+
+Special DOFS adjustments:
+-------------------------
+
+Head-Turn:  Tom and I took out the valve compensation since the DOF
+            got unstable to quickly.
+
+All Eye DOFS: Since the torque loop is missing, the torque error gain
+              should be unity. We found that value 412 does this. Valve
+              compensation needs to be disabled since we do not want to
+              boost an absolute torque command by something weird.
+              We tried each DOF in pure torque mode, using only the des.
+              torque in Argus. We set the des. torque to max, i.e., 4095
+              or zero, and adjusted the torque error gain such that the
+              valve current LED on the AJC cards came on (i.e, saturation).
+              Surprisingly, this was exactly 412.
+              Then we tuned a PD loop which does not go through the
+              torque error gain.
+
+
+Calibration of Sensors:Torque Gains:
+----------------------------
+see above for multipliers. We measure the raw sensor voltage accross
+the max range of motion, as well as the raw A/D readings in Argus (as
+an integer). This allows to get the calibration slope directly. Seemingly,
+the AJC cards have sometimes different internal gains, such that a clean
+way of generating the calibration does not exist.
+
+formula is:
+
+sensor gain, see above
+sensor offset:
+
+linear actuators:
+
+- drive the actuator such that the sensor is at minimal length. Read
+  this value from Argus, call if  r_min, and observe whether this
+  is the max or min value of the actuator. Also get r_max, i.e., the
+  raw value from the other stop. Also read V1 and V2 from the two extreme
+  position, where the V values are read from the SCREW terminal before the
+  AJC cards (we could never figure out the amplification in the AJC cards,
+  so this given method was the only one to get proper calibration values)
+
+- measure the length of the minimally long sensor relative to its
+  hinging point: called l0
+
+- off = - l0/(abs(r_min-r_max))/g * (r_min-r_max) - r_min
+  g = abs(V1-V2)/abs(r_min-r_max) / cal
+
+  cal = V/units * unit/standard_units (for V/unit values, see above)
+
+  gain = l0/(r_min + off)  and should be equal to g!
+
+
+
+linear actuators with rotary sensors:
+
+the gain is easy
+
+  g = abs(V1-V2)/abs(r_min-r_max) / cal
+
+the offset needs be taken such that at the 90 degree moment arm the actuator,
+we get the following angle : arccos(h/a)
+
+  (h = moment arm, a = the distance between the joint axis and the distal rotation
+   axis of the linear actuator --- see SensorCalibration.cf file)
+
+assume a raw reading from the sensor at this position, i.e., raw:
+
+then:
+
+  off = arccos(a/h)/g - raw
+
+This value is important such that the torque output of each DOFs results to
+a maximal value at this point
+
+
+Strange STUFF
+****************
+
+Left Elbow Torque Gain: This gain needs to half the size of what would
+be reasonable according to load cell calculations. But in AtConfiguration.cf,
+the gain needs to be set like for the left arm, otherwise we get incorrect
+torque readings.
+  
+  Either the sensor is different (unlikely since the inspection measurements
+are similar for left & right), or the AJC card amplifies more in this card.
+This is really weird!
+
+Right Humeral Rotation: gain in AtConfiguration.cf for torque needed to
+                        to be twice as large in order to give correct 
+                        torque (we did proper force measurement).

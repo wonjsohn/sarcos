@@ -1,0 +1,7 @@
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xmaster
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xmotor
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xvision
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xpest
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xrmaster
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xrmotor
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/xrvision

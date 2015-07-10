@@ -1,0 +1,75 @@
+/*============================================================================
+==============================================================================
+                      
+                              initUserTasks.c
+ 
+==============================================================================
+Remarks:
+
+         Functions needed to initialize and link user tasks for the
+         simulation
+
+============================================================================*/
+// system heaaders
+#include "SL_system_headers.h"
+
+
+#include "SL.h"
+#include "SL_user.h"
+#include "SL_man.h"
+#include "SL_task_servo.h"
+
+/* global variables */
+
+/* local variables */
+static int user_tasks_initialized = FALSE;
+
+
+/*****************************************************************************
+******************************************************************************
+Function Name	: initUserTasks
+Date		: June 1999
+   
+Remarks:
+
+      initialize tasks that are not permanently linked in the simulation
+      This replaces the <ltask facility in vxworks -- just that we cannot
+      do on-line linking in C.
+
+******************************************************************************
+Paramters:  (i/o = input/output)
+
+  none   
+
+*****************************************************************************/
+void
+initUserTasks(void)
+
+{
+
+  extern void add_vision_calibration_task();
+  extern void add_sample_task(); 
+  extern void add_sample_task_cpp(); 
+  //extern void add_sample_dc(); 
+  extern void add_sample_trigger();
+  extern void add_turing_record_task(); 
+  extern void add_turing_playback_task();  
+  extern void add_turing_test_task(); 
+  extern void add_dragging_PD_gravity_compensation_task();
+
+  add_vision_calibration_task();
+  add_sample_task(); 
+  add_sample_task_cpp(); 
+  //add_sample_dc();
+  add_sample_trigger(); 
+  add_turing_record_task();
+  add_turing_playback_task();
+  add_turing_test_task(); 
+  add_dragging_PD_gravity_compensation_task();
+
+  // make the robot to the default posture
+  if (!real_robot_flag)
+    sprintf(initial_user_command,"go0");
+
+
+}

@@ -1,0 +1,7 @@
+osc_enabled (int, xmaster)
+task_servo_geometry (string, xmaster)
+goto_speed (double, task)
+osc_enabled (int, task)
+vision_servo_geometry (string, xmaster)
+osc_enabled (int, vision)
+motor_servo_geometry (string, xmaster)

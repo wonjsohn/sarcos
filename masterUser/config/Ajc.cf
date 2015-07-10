@@ -1,0 +1,15 @@
+/* Assignment from DOFs to AJC slots */
+
+/* format: keyword, slot number in AJC bus, card ID */
+
+  R_SFE	   1	    0xC0
+  R_SAA    2	    0xC1
+  R_HR     3	    0xff
+  R_EB     4	    0xC3
+  R_WR     5	    0xC4
+  R_WFE    6	    0xff
+  R_WAA    7	    0xC6
+
+  R_TL     8	    0xC7
+  R_TV     9	    0xC8
+  R_FAA    10	    0xC9

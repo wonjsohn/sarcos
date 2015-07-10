@@ -1,0 +1,107 @@
+/*****************************************************************************
+ This is an Imakefile for GNU make, relying on special imake rules in
+ ~sschaal/prog/imake. In order to use imake and make correctly, look
+ into the README file in ~sschaal/prog/imake.
+
+ Definition of variables:
+
+ SOURCES  : All source files which are used in this Imakefile. Imake
+            will automatically generate dependencies to keep these
+            source files up-to-date with repect to included header files.
+
+ HEADERS  : All header to be kept up to data
+ OBJECTS  : All object files to be used in certain rules. See SS_Imake.rules
+ SRCDIR   : Directory where source files come from (global variable)
+ LIBDIR   : Where to install a lib
+ HEADERDIR: Where to install header files
+ BINDIR   : Where to install executables
+ INCLUDES :All include directories
+
+ Stefan Schaal, September 1996
+
+****************************************************************************/
+SetCrossCompileTarget($(shell pwd))
+
+INCLUDES               = -I../src \
+			 -I../include \
+			 -I../math \
+			 -I$(MYINCLUDEPATH) \
+			 -I$(SARCOSDTSHOME)/include \
+			 -I$(PROG_ROOT)/../echotek/h 
+CFLAGS                 = -DVW $(OPTIMIZE_CC_FLAGS) $(INCLUDES)
+LDFLAGS                = -L$(MYLIBDIR)/$(CROSS_TARGET)
+LIBRARIES              = -llwpr.ppc -lutility.ppc -ldevices.ppc
+
+SRCDIR                 = ../src
+LIBDIR                 = $(MYLIBDIR)/$(CROSS_TARGET)
+HEADERDIR              = $(MYINCLUDEPATH)
+BINDIR                 = ../obj/$(CROSS_TARGET)
+
+LIBS_MOTOR_SERVO = -lSLmotor.ppc
+OBJS_MOTOR_SERVO = \
+	user_commands.o \
+	SL_user_common.o \
+	sensor_user_proc_vx.o 
+
+SRCS_MOTOR_SERVO = \
+	sensor_user_proc_vx.c \
+	user_commands.c \
+	SL_user_common.c 
+
+
+LIBS_TASK_SERVO = -lSLtask.ppc -llwpr.ppc
+OBJS_TASK_SERVO = \
+	SL_inv_dynamics.o \
+	SL_inv_dynamics_art.o \
+	SL_kinematics.o \
+	user_commands.o \
+	SL_user_common.o 
+
+SRCS_TASK_SERVO = \
+	SL_inv_dynamics.c \
+	SL_inv_dynamics_art.c \
+	SL_kinematics.c \
+	user_commands.c \
+	SL_user_common.c 
+
+
+LIBS_VISION_SERVO = -lSLvision.ppc -llwpr.ppc
+OBJS_VISION_SERVO = \
+	SL_newtonlabs.o \
+	SL_kinematics.o \
+	user_commands.o \
+	SL_user_common.o 
+
+SRCS_VISION_SERVO = \
+	SL_newtonlabs.c \
+	SL_kinematics.c \
+	user_commands.c \
+	SL_user_common.c 
+
+
+LIBS_INVDYN_SERVO = -lSLinvdyn.ppc -llwpr.ppc
+OBJS_INVDYN_SERVO = \
+	SL_inv_dynamics.o \
+	SL_inv_dynamics_art.o \
+	user_commands.o \
+	SL_user_common.o 
+
+SRCS_INVDYN_SERVO = \
+	SL_inv_dynamics.c \
+	SL_inv_dynamics_art.c \
+	user_commands.c \
+	SL_user_common.c 
+
+
+
+SOURCES = $(SRCS_MOTOR_SERVO) $(SRCS_TASK_SERVO) $(SRCS_VISION_SERVO)
+OBJECTS = $(OBJS_MOTOR_SERVO) $(OBJS_TASK_SERVO) $(OBJS_VISION_SERVO)
+HEADERS = 
+
+ProgramListTargetppc( motor_servo, $(OBJS_MOTOR_SERVO), $(LIBS_MOTOR_SERVO) -u init_vxworks )
+ProgramListTargetppc( task_servo, $(OBJS_TASK_SERVO), $(LIBS_TASK_SERVO) -u init_vxworks)
+
+ProgramListTargetppc( vision_servo, $(OBJS_VISION_SERVO) $(LAB_ROOT)/../echotek/Discrete_IO_Driver/dioDriver.o , $(LIBS_VISION_SERVO) -u init_vxworks)
+
+ProgramListTargetppc( invdyn_servo, $(OBJS_INVDYN_SERVO), $(LIBS_INVDYN_SERVO) -u init_vxworks)
+NormalObjRule( $(OBJECTS) )

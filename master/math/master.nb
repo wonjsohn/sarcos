@@ -1,0 +1,140 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[      3834,        131]
+NotebookOptionsPosition[      2883,         98]
+NotebookOutlinePosition[      3487,        121]
+CellTagsIndexPosition[      3444,        118]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+  "SetDirectory", "[", 
+   "\"\</Volumes/vangogh/sschaal/Documents/Math/ControlTheory\>\"", "]"}], 
+  ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"<<", "RigidBodyDynamics.m"}]], "Input",
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SetDirectory", "[", "\"\<master\>\"", "]"}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"InvDynNE", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"-", "gravity"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.494468409706417*^9, 3.4944684098074217`*^9}},
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{"InvDynArt", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"-", "gravity"}]}], "}"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"ParmEst", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"-", "gravity"}]}], "}"}]}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"ForDynArt", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"-", "gravity"}]}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.4944684175517683`*^9, 3.494468417959557*^9}},
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{"ForDynComp", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     RowBox[{"-", "gravity"}]}], "}"}]}], "]"}]], "Input",
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{"LinkEndpointKinematics", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\""}], "]"}]], "Input",
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{"OpenGLKinematics", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\""}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"GeometricJacobian", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", 
+   RowBox[{"{", "108", "}"}], ",", "\"\<master\>\""}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"InertiaMatrix", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\""}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"LinkInformation", "[", 
+  RowBox[{"\"\<master.dyn\>\"", ",", "\"\<master\>\""}], "]"}]], "Input"]
+},
+WindowToolbars->{},
+CellGrouping->Automatic,
+WindowSize->{820, 586},
+WindowMargins->{{466, Automatic}, {Automatic, 163}},
+PrivateNotebookOptions->{"ColorPalette"->{RGBColor, 128}},
+ShowCellLabel->True,
+ShowCellTags->False,
+RenderingOptions->{"ObjectDithering"->True,
+"RasterDithering"->False},
+CharacterEncoding->"MacintoshAutomaticEncoding",
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (June 19, 2007)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[568, 21, 153, 5, 27, "Input"],
+Cell[724, 28, 88, 2, 27, "Input"],
+Cell[815, 32, 96, 2, 27, "Input"],
+Cell[914, 36, 303, 7, 27, "Input"],
+Cell[1220, 45, 211, 5, 27, "Input"],
+Cell[1434, 52, 209, 5, 27, "Input"],
+Cell[1646, 59, 304, 7, 27, "Input"],
+Cell[1953, 68, 237, 6, 27, "Input"],
+Cell[2193, 76, 153, 3, 27, "Input"],
+Cell[2349, 81, 122, 2, 27, "Input"],
+Cell[2474, 85, 159, 3, 27, "Input"],
+Cell[2636, 90, 119, 2, 27, "Input"],
+Cell[2758, 94, 121, 2, 27, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

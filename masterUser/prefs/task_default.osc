@@ -1,0 +1,23 @@
+R_SFE_th	1
+R_SAA_th	1
+R_HR_th		1
+R_EB_th		1
+R_WR_th		1
+R_WFE_th	1
+R_WAA_th	1
+
+R_SFE_thd	2
+R_SAA_thd	2
+R_HR_thd	2
+R_EB_thd	2
+R_WR_thd	2
+R_WFE_thd	2
+R_WAA_thd	2
+
+emgTrig		3
+R_EB_u		3
+R_EB_uff	3
+R_EB_ufb	3
+R_EB_load	3
+R_EB_uex	3
+
