@@ -60,6 +60,14 @@ static double freq;
 static double amp;
 static SL_DJstate  target[N_DOFS+1];
 static int        use_invdyn     = TRUE;
+static double		inertia_gain 				= 0.425;
+
+#define NZEROS 4
+#define NPOLES 4
+#define GAIN   1.112983215e+06
+static float xv[N_DOFS+1][NZEROS+1], yv[N_DOFS+1][NPOLES+1];
+static float xa[N_DOFS+1][NZEROS+1], ya[N_DOFS+1][NPOLES+1];
+static SL_DJstate  joint_filt_state[N_DOFS+1];
 
 /* global functions */
 #include <sys/stat.h>
@@ -70,7 +78,6 @@ static int        use_invdyn     = TRUE;
 char* g_fpga2robot = NULL;
 char* g_robot2fpga = NULL;
 char *homePath  ;   // environmental variable to use relative path. 
-char *homePath_copy  ;   // environmental variable to use relative path. 
 struct stat statbuf;   
 
 /* local functions */
@@ -78,7 +85,7 @@ static int  init_fpga_task(void);
 static int  run_fpga_task(void);
 static int  change_fpga_task(void);
 
-
+static SL_DJstate	extra_joint_state_filter(int);
 
 
 /*****************************************************************************
@@ -142,7 +149,6 @@ init_fpga_task(void)
   //enter code
     /* get home path */
     homePath= getenv ("HOME");
-    homePath_copy= getenv ("HOME");
   
  
      //////////////////////////////////////////////////////////////////////////
@@ -157,7 +163,7 @@ init_fpga_task(void)
 	
 	if(hFile == INVALID_HANDLE_VALUE) 
 	{
-		// Failed to create file homePath
+		// Failed to create file 
 		return 1;
 	}
 
@@ -168,7 +174,7 @@ init_fpga_task(void)
 
 
 
- printf("buffer_size: %d\n\n", statbuf.st_size);
+    printf("buffer_size: %d\n\n", statbuf.st_size);
 	
 	int fd_i;
     char* fgpa2robot_FilePath;
@@ -186,10 +192,7 @@ init_fpga_task(void)
     }
     
     int fd_o;
-    //char* robot2fpga_FilePath;
-    //robot2fpga_FilePath = strncat(homePath_copy, "/prog/masterUser/src/robot2fpga.dat", 100);  //max number of characers to be concatinated :100
-    if((fd_o = open("/Network/Servers/duerer/guest/prog/masterUser/src/robot2fpga.dat", O_RDWR)) == -1)
-   // if((fd_o = open(robot2fpga_FilePath, O_RDWR)) == -1)
+    if((fd_o = open("/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/robot2fpga.dat", O_RDWR)) == -1)
     {
         printf("Couldn't open 'robot2fpga.dat'\n");
     }
@@ -217,7 +220,7 @@ init_fpga_task(void)
     if (fstat (fd_i, &statbuf) < 0)
         err_sys ("fstat error");
 
-	system("/Network/Servers/duerer/guest/prog/masterUser/src/py/py_mmap.py &");
+	system("/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/py/py_mmap.py &");
   //end code
 
 
@@ -234,8 +237,7 @@ init_fpga_task(void)
   // prepare going to the default posture
   bzero((char *)&(target[1]),N_DOFS*sizeof(target[1]));
   for (i=1; i<=N_DOFS; i++)
-    target[i] = joint_default_state[i];   
-
+    target[i] = joint_default_state[i];
 
   // go to the target using inverse dynamics (ID)
   if (!go_target_wait_ID(target)) 
@@ -281,8 +283,6 @@ static int
 run_fpga_task(void)
 {
   int j, i;
-  static int count=0;
-
 
   double task_time;
   double omega;  char * pPath;
@@ -303,6 +303,12 @@ run_fpga_task(void)
 
   task_time = task_servo_time - start_time;
   omega     = 2.0*PI*freq;
+  
+  	// some extra filtering for better inertial compensation (inherited from Michael Mistry's program)
+	for (i=1; i<=N_DOFS; ++i)
+	{
+		joint_filt_state[i]					= extra_joint_state_filter(i);
+	}
 
 //   for (i=R_EB; i<=R_EB; ++i) {
 //       target[i].th   = joint_default_state[i].th + tmpdata;
@@ -321,61 +327,125 @@ run_fpga_task(void)
 //   }
   
   
-
     //tmpdata = tmpdata *3.14 / 180;   // convert to radian
     //printf("angle= %f\n", tmpdata);  // 
     
     //joint_des_state[R_EB].th = tmpdata; // in radian; //angular position 
-   // printf("input torque to robot= %f\n", tmpdata);  // 
+
   
-    //joint_des_state[R_EB].uff = tmpdata; // torque 
-    //joint_des_state[R_EB].th  = joint_state[R_EB].th;    
-    //joint_des_state[R_EB].th = 0.9; // SERVO 
-    //joint_des_state[R_EB].thd  = joint_state[R_EB].thd;    
-    //joint_des_state[R_EB].thdd = joint_state[R_EB].thdd;    
-    
-    /****** SERVO : stretch and hold after some period of time: Eric ******/  
-//    float tau;
-//    if (count<=2000) {
-//        joint_des_state[R_EB].th = 1.57; // 90 degree
-//        currentAngle =  joint_state[R_EB].th;     //Angle will calculate position
-//        currentAngularVel =  joint_state[R_EB].thd;   // Angular velocity
-//        sprintf(g_robot2fpga, "%.4f\t%.4f\n", currentAngle, currentAngularVel);
-//    }
-//    else {
-        //joint_des_state[R_EB].th = 1.0; // 90 degree
-        /*** smoothing to prevent abrupt change ***/
-//         tau = (count-2000)/1000; 
-//         joint_des_state[R_EB].th = 1.57 + (1.57-1.03) * ((15.0 * pow(tau, 4.0)) - (6.0 * pow(tau, 5.0)) - (10.0 * pow(tau, 3.0)));
-        joint_des_state[R_EB].uff =  tmpdata;  
-           
-        currentAngle =  joint_state[R_EB].th;     //Angle will calculate position
-        currentAngularVel =  joint_state[R_EB].thd;   // Angular velocity
-    //printf("currentLen in robot: %f\n", currentLen);
+
     
     /* this copies the input file to the output file */
  //   memcpy(g_robot2fpga, g_fpga2robot,  statbuf.st_size);
     
-    //257:6: e
+    
      /* writeing attempts */
 //    fwrite(&deltaLen, sizeof(double), 1, g_robot2fpga);
 //fprintf
 
     //write(fd_o, "%f", currentLen);
     
-        sprintf(g_robot2fpga, "%.4f\t%.4f\n", currentAngle, currentAngularVel);
+
+    
     //*g_robot2fpga = currentLen;
-    //}
+      
+
+for (i=1; i<=N_DOFS; ++i)
+		{
+           // gainControl = 0.1;
+			// The one that is very noisy is the joint acceleration sensing, that's why we are using the filtered version of it
+			// (joint_filt_state[i].thdd), instead of the unfiltered one (joint_state[i].thdd). Joint position (joint_state[i].th) and joint velocity (joint_state[i].thd)
+			// on the other hand are not so noisy, so we are using the original (unfiltered) one.
+			if (i == R_EB)
+			{
+				joint_des_state[i].th   = joint_state[i].th;
+				joint_des_state[i].thd  = joint_state[i].thd;
+                // joint_des_state[i].thdd  = joint_state[i].thdd; // use filter
+                 joint_des_state[i].thdd = joint_filt_state[i].thdd * inertia_gain;	// multiplication by inertia gain here is maybe for reducing the risk of the system becoming unstable???
+
+				//joint_des_state[i].thdd = joint_filt_state[i].thdd * inertia_gain;	// multiplication by inertia gain here is maybe for reducing the risk of the system becoming unstable???
+				//joint_des_state[i].uff  = 0.0;
+              
+			}
+			else
+			{
+				joint_des_state[i].th   = joint_des_state[i].th;	// don't change the joint_des_state;
+				joint_des_state[i].thd  = 0.0;
+				joint_des_state[i].thdd = 0.0;
+				joint_des_state[i].uff  = 0.0;
+			}
+		}
 
 
-  // compute inverse dynamics torques
-  //SL_InverseDynamics(joint_state, joint_des_state, endeff);
+    // compute inverse dynamics torques
+  //   SL_InverseDynamics(joint_state, joint_des_state, endeff);
+    SL_InvDynNE(joint_state,joint_des_state,endeff,&base_state,&base_orient);
+
+     joint_des_state[R_EB].uff += tmpdata; // torque  += may be too slow for the reflex? 
+    printf("input torque to robot= %f\n", tmpdata);  // 
   
     
+       
+   // joint_des_state[R_EB].th  = joint_state[R_EB].th;    
+    //joint_des_state[R_EB].thd  = joint_state[R_EB].thd;      
+    //joint_des_state[R_EB].thdd = joint_state[R_EB].thdd;    // acceleration data bad? just don't use it. 
     
-  // count = count + 1;
+    currentAngle =  joint_state[R_EB].th;     //Angle will calculate position
+    currentAngularVel =  joint_state[R_EB].thd;   // Angular velocity
+    //printf("currentLen in robot: %f\n", currentLen);
+    
+    sprintf(g_robot2fpga, "%.4f\t%.4f\n", currentAngle, currentAngularVel);
+
   return TRUE;
 }
+
+
+/*****************************************************************************
+******************************************************************************
+  Function Name	: extra_joint_state_filter
+  Date			: Jan 2012
+
+  Remarks:
+
+  does some extra polynomial filtering on the velocities and 
+  accelerations
+
+******************************************************************************
+  Parameters:  (i/o = input/output)
+
+  \param[in]   i: DOF to be filtered
+
+ *****************************************************************************/
+static SL_DJstate 
+extra_joint_state_filter(int i)
+{
+	SL_DJstate  filtered_output[N_DOFS+1];
+
+    /* position is not filtered */
+    filtered_output[i].th = joint_state[i].th;
+  
+    /* velocity filtering */
+    xv[i][0] = xv[i][1]; xv[i][1] = xv[i][2]; xv[i][2] = xv[i][3]; xv[i][3] = xv[i][4]; 
+    xv[i][4] = joint_state[i].thd / GAIN;
+    yv[i][0] = yv[i][1]; yv[i][1] = yv[i][2]; yv[i][2] = yv[i][3]; yv[i][3] = yv[i][4]; 
+    yv[i][4] =   (xv[i][0] + xv[i][4]) + 4 * (xv[i][1] + xv[i][3]) + 6 * xv[i][2]
+               + ( -0.8485559993 * yv[i][0]) + (  3.5335352195 * yv[i][1])
+               + ( -5.5208191366 * yv[i][2]) + (  3.8358255406 * yv[i][3]);
+    filtered_output[i].thd = yv[i][4];
+
+    /* acceleration filtering */
+    xa[i][0] = xa[i][1]; xa[i][1] = xa[i][2]; xa[i][2] = xa[i][3]; xa[i][3] = xa[i][4]; 
+    xa[i][4] = joint_state[i].thdd / GAIN;
+    ya[i][0] = ya[i][1]; ya[i][1] = ya[i][2]; ya[i][2] = ya[i][3]; ya[i][3] = ya[i][4]; 
+    ya[i][4] =   (xa[i][0] + xa[i][4]) + 4 * (xa[i][1] + xa[i][3]) + 6 * xa[i][2]
+               + ( -0.8485559993 * ya[i][0]) + (  3.5335352195 * ya[i][1])
+               + ( -5.5208191366 * ya[i][2]) + (  3.8358255406 * ya[i][3]);
+    filtered_output[i].thdd = ya[i][4];
+    
+    return filtered_output[i];
+}
+
+
 
 /*****************************************************************************
 ******************************************************************************
