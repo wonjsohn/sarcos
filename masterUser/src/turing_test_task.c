@@ -55,6 +55,7 @@ static double amp0, amp1, amp2;
 static SL_DJstate  target[N_DOFS+1];
 static int        use_invdyn     = TRUE;
 static double		inertia_gain 				= 0.01; //0.425;
+static double gainControl = 0.01;
 
 static int k = 0; //index for Array read from txt. 
 static double pos2DArray[3]; // (coeff0, coeff1, coeff2) : offset, poscoeff, velcoeff
@@ -302,7 +303,7 @@ run_turing_test_task(void)
   double task_time;
   double omega0, omega1, omega2, torque;
   double posCoef, velCoef, loadCoef, gravity;
-  double gainControl;
+ //double gainControl;
 
  
 
@@ -339,7 +340,7 @@ task_time = task_servo_time - start_time;
 
 for (i=1; i<=N_DOFS; ++i)
 		{
-            gainControl = 0.1;
+           // gainControl = 0.1;
 			// The one that is very noisy is the joint acceleration sensing, that's why we are using the filtered version of it
 			// (joint_filt_state[i].thdd), instead of the unfiltered one (joint_state[i].thdd). Joint position (joint_state[i].th) and joint velocity (joint_state[i].thd)
 			// on the other hand are not so noisy, so we are using the original (unfiltered) one.
@@ -381,7 +382,8 @@ for (i=1; i<=N_DOFS; ++i)
   // compute inverse dynamics torques
   //SL_InverseDynamics(joint_state, joint_des_state, endeff);
   SL_InvDynNE(joint_state,joint_des_state,endeff,&base_state,&base_orient);
-  joint_des_state[R_EB].uff +=  (pos2DArray[0]+ pos2DArray[1]*omega0 + pos2DArray[2]*omega1)*gainControl ; // + (loadCoef*torque)*1.0; //+ gravity;   // no gravity since it should have been taken care in playback - record stage. 
+ // uff += may not be correct way (too slow?) But we need that += to make the arm not drop. 
+  joint_des_state[R_EB].uff +=  (pos2DArray[0]+ pos2DArray[1]*omega0 + pos2DArray[2]*omega1)*gainControl *(-1); // + (loadCoef*torque)*1.0; //+ gravity;   // no gravity since it should have been taken care in playback - record stage. 
 
   return TRUE;
 }
@@ -448,14 +450,30 @@ extra_joint_state_filter(int i)
   none
 
  *****************************************************************************/
+//static int 
+//change_turing_test_task(void)
+//{
+//  int    ivar;
+//  double dvar;
+//
+//  get_int("This is how to enter an integer variable",ivar,&ivar);
+//  get_double("This is how to enter a double variable",dvar,&dvar);
+//
+//  return TRUE;
+//
+//}
+
 static int 
 change_turing_test_task(void)
 {
   int    ivar;
   double dvar;
-
-  get_int("This is how to enter an integer variable",ivar,&ivar);
-  get_double("This is how to enter a double variable",dvar,&dvar);
+      
+        get_double("Gain Control",gainControl,&dvar);
+        if ((dvar >= 0.0) && (dvar <= 2.0))
+        {
+                gainControl                                          = dvar;
+        }
 
   return TRUE;
 

@@ -86,6 +86,10 @@ class Robot:
     def angle2length(self, angle):
         length = 1.8 + (0.2-1.8) / (3.14)* angle     # angle in rad 
         return length
+     
+    def angularV2linearV(self, angV):
+        linV = angV      # angle in rad 
+        return linV   
         
     def timeStamped(self, data):
         #return str(datetime.datetime.now()) +' '+str(data)+  '\n'
@@ -103,7 +107,7 @@ if __name__ == "__main__":
     sys.path.insert(0,'/Network/Servers/duerer/Volumes/duerer/guest/nerf-verilog/source/py/multC_tester')
     from Utilities import *
     from config_test import *
-    from MVC_MainGUI import MultiXemScheduler
+    #from MVC_MainGUI import MultiXemScheduler
     from C_XemScheduler import SingleXemTester # Controller in MVC
     from M_Fpga import SomeFpga # Model in MVC
     from V_Display import View, ViewChannel,  CtrlChannel # Viewer in MVC
@@ -154,7 +158,7 @@ if __name__ == "__main__":
     xemList = []
     
     """ simulation speed  """
-    sim_speed = 10   # 10 is 1x realtime 
+    half_count = 381   # 1x realtime 
     availableFPGAs = [rawxem.GetDeviceListSerial(i) for i in xrange(count)]
     print availableFPGAs
     """ Device registration """
@@ -170,20 +174,28 @@ if __name__ == "__main__":
     """By 012514: '0000000550', '000000053X', '000000054K', '11160001CJ', '12320003RN', '12430003T2'"""
     
 #    nerfModel = FpgaDevice("12320003RN",  BIT_FILE_LIST[0])  # BS 
-    nerfModel = SomeFpga(NUM_NEURON, SAMPLING_RATE, '12320003RN')
+    nerfModel = SomeFpga(NUM_NEURON, SAMPLING_RATE, '12320003RN') # BS 
+    nerfModel.BurnBitFile(BIT_FILE_LIST[0])
+    nerfModel.HalfCountRealTime() # 1x realtime
     print "serial = 12320003RN  \n"
-#    nerfModel.onClkRate(sim_speed) # 1x realtime
+
     xemList.append(nerfModel)
     nerfModel = SomeFpga(NUM_NEURON, SAMPLING_RATE, '12430003T2')   # BM
+    nerfModel.BurnBitFile(BIT_FILE_LIST[1])
+    nerfModel.HalfCountRealTime() # 1x realtime
     print "serial = 12430003T2 \n"
 #    nerfModel.onClkRate(sim_speed) # 1x realtime
     xemList.append(nerfModel)
     
     nerfModel = SomeFpga(NUM_NEURON, SAMPLING_RATE, '000000054K')  # TS
+    nerfModel.BurnBitFile(BIT_FILE_LIST[0])
+    nerfModel.HalfCountRealTime() # 1x realtime
     print "serial = 000000054K  \n"
-#    nerfModel.onClkRate(sim_speed) # 1x realtime
+#    nerfModel.onClkRate() # 1x realtime
     xemList.append(nerfModel)
     nerfModel =SomeFpga(NUM_NEURON, SAMPLING_RATE, '0000000550')  # TM
+    nerfModel.BurnBitFile(BIT_FILE_LIST[1])
+    nerfModel.HalfCountRealTime() # 1x realtime
     print "serial = 0000000550  \n"
 #    nerfModel.onClkRate(sim_speed) # 1x realtime
     xemList.append(nerfModel)
@@ -246,7 +258,7 @@ if __name__ == "__main__":
 #    TRIG_EVENT_GAIN_SYN = 6;
     
     deltaLen=0.0;
-    moment_arm = 0.01;
+    torque_gain = 0.003 #0.001; #0.0001 is about right when uff+= is used?.  Make sure it is small. 
     BUTTON_RESET = 0
     BUTTON_RESET_SIM = 2; # from 1
     BUTTON_INPUT_FROM_TRIGGER = 1
@@ -300,11 +312,12 @@ if __name__ == "__main__":
     xemList[0].SendPara(bitVal_bic, trigEvent = TRIG_EVENT_SENSORY_LCE)   #BS
     xemList[2].SendPara(bitVal_tri, trigEvent = TRIG_EVENT_SENSORY_LCE)   #  TS
     
-    xemList[1].SendMultiPara(bitVal1 = bitVal_bic, bitVal2=0,  trigEvent =TRIG_EVENT_MOTOR_LCE_VEL) #BS
-    xemList[3].SendMultiPara(bitVal1 = bitVal_tri, bitVal2=0,  trigEvent = TRIG_EVENT_MOTOR_LCE_VEL) #TS
+    xemList[1].SendMultiPara(bitVal1 = bitVal_bic, bitVal2=0,  trigEvent =TRIG_EVENT_MOTOR_LCE_VEL) #BM
+    xemList[3].SendMultiPara(bitVal1 = bitVal_tri, bitVal2=0,  trigEvent = TRIG_EVENT_MOTOR_LCE_VEL) #TM
     
     """ log data writing etc """ 
-    writeFilePath='../logfile'
+#    writeFilePath='../logfile'
+    writeFilePath = HOMEPATH +  "prog/masterUser/src/logfile.txt"
     f = open(writeFilePath, 'w')  
     basetime = round(time.time()*1000)    # current time in milisecond
       
@@ -327,13 +340,13 @@ if __name__ == "__main__":
         currentTime = round(time.time()*1000)    # current time in milisecond
         elapsedTime = currentTime - basetime
         #print biceps_force
-        f.write(str(elapsedTime)+'\t'+str(triceps_force)+'\n')
+        
  
         
         
         # TODO: force to torque        
-        biceps_torque = biceps_force * moment_arm
-        triceps_torque = triceps_force * moment_arm
+        biceps_torque = biceps_force * torque_gain
+        triceps_torque = triceps_force * torque_gain
         
         #print '**biceps_force = %f,  triceps_force = %f' %(biceps_force, triceps_force)
         
@@ -348,9 +361,9 @@ if __name__ == "__main__":
         
         #err = desiredLen - currentLen;
         #muscleForce = err * coeff;
-        print 'net_torque: %f' %net_torque
+#        print 'net_torque: %f' %net_torque
         
-        shaal.write(net_torque)  # write to robot
+        shaal.write(net_torque)  # write to robot (1* net_torque is correct)  
         currentAngle, currentAngularVel = shaal.read()    # read from robot
 
         #print "python reporting Angle: %f    %f" % (currentAngle, currentAngularVel)
@@ -360,12 +373,12 @@ if __name__ == "__main__":
         # TODO convert angle to length, moment arm missing.       
         currentLen_bic = shaal.angle2length(currentAngle) + 0.02;
         currentLen_tri = 2.04 - currentLen_bic; 
-        currentVel_bic = - shaal.angle2length(currentAngularVel);
+        currentVel_bic = - shaal.angularV2linearV(currentAngularVel);
         currentVel_tri = -currentVel_bic;
         #print "python reporting currentAngle: %f, bic_len: %f,   tri_len: %f, net_torque: %f " % (currentAngle, currentLen_bic, currentLen_tri, net_torque)
         #currentLen_bic = currentAngle; 
         
-        print 'currentLen_bic = %f,  currentLen_tri = %f' % (currentLen_bic, currentLen_tri)
+#        print 'currentLen_bic = %f,  currentLen_tri = %f' % (currentLen_bic, currentLen_tri)
         
         
         bitVal_bic = convertType(currentLen_bic, fromType = 'f', toType = 'I')
@@ -378,7 +391,9 @@ if __name__ == "__main__":
         xemList[1].SendMultiPara(bitVal1 =bitVal_bic,  bitVal2=bitVal_vel_bic, trigEvent = TRIG_EVENT_MOTOR_LCE_VEL)   # send to BM
         xemList[3].SendMultiPara(bitVal1 =bitVal_tri,  bitVal2=bitVal_vel_tri, trigEvent = TRIG_EVENT_MOTOR_LCE_VEL)   # send to TM
 
-        
+
+        #print "python reporting currentAngle: %f, bic_len: %f,   tri_len: %f, net_torque: %f " % (currentAngle, currentLen_bic, currentLen_tri, net_torque)
+        f.write(str(elapsedTime)+ '\t' + str(biceps_force) +  '\t' +str(triceps_force)+ '\t' +str(net_torque)+ '\t'+str(currentLen_bic) +  '\t'+str(currentLen_tri) + '\t'+str(currentVel_bic) +  '\t'+str(currentVel_tri) + '\n')
         #time.sleep(0.01)
             
 

@@ -14,11 +14,11 @@ utility.h
 
 /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_dynamics.h
 
-/Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_filters.h
-
 /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_kinematics.h
 
 /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_man.h
+
+/Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_oscilloscope.h
 
 /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_shared_memory.h
 
@@ -122,7 +122,7 @@ stdlib.h
 
 /Network/Servers/duerer/Volumes/duerer/clmc/prog/master/include/SL_user.h
 
-/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_test_task.c
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_playback_task.c
 SL_system_headers.h
 /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_system_headers.h
 SL.h
@@ -141,22 +141,18 @@ SL_collect_data.h
 /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_collect_data.h
 SL_shared_memory.h
 /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_shared_memory.h
-SL_filters.h
-/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_filters.h
 SL_man.h
 /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_man.h
-time.h
-/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/time.h
+SL_oscilloscope.h
+/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/SL_oscilloscope.h
 stdlib.h
 -
 stdio.h
 -
+string.h
+-
 time.h
 -
-Windows.h
--
-process.h
--
-sys/mman.h
+dirent.h
 -
 

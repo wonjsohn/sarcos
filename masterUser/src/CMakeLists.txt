@@ -47,12 +47,14 @@ set(SRCS_XTASK
 	sample_task_cpp.cpp
 	vision_calibration_task.c 
 	#sample_dc.c
-        sample_trigger.c
-	turing_record_task.c
+    sample_trigger.c
+    fpga_task.c
+	#turing_record_task.c
+    elbow_perturbation.c
 	turing_playback_task.c
 	turing_test_task.c
 	dragging_PD_gravity_compensation_task.c
-	elbow_perturbation.c
+	
 	)
 
 set(SRCS_XOPENGL

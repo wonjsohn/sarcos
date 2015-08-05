@@ -14,7 +14,7 @@ R_WR_thd	2
 R_WFE_thd	2
 R_WAA_thd	2
 
-emgTrig		3
+emgTrig		4
 R_EB_u		3
 R_EB_uff	3
 R_EB_ufb	3

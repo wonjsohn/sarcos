@@ -39,7 +39,8 @@ for line in lines:
     vals = line.split(",")
     x1.append(float(vals[1])) # pos
     x2.append(float(vals[2])) # vel 
-    y.append(float(vals[3]))  # ufb (update)
+#    y.append(float(vals[3]))  # ufb (update)
+    y.append(float(vals[5]))  # diff load (update)
 x1 = np.array(x1)
 x2 = np.array(x2)
 y = np.array(y)

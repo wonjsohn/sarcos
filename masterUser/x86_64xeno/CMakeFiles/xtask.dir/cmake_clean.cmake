@@ -4,11 +4,11 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/xtask.dir/sample_task_cpp.cpp.o"
   "CMakeFiles/xtask.dir/vision_calibration_task.c.o"
   "CMakeFiles/xtask.dir/sample_trigger.c.o"
-  "CMakeFiles/xtask.dir/turing_record_task.c.o"
+  "CMakeFiles/xtask.dir/fpga_task.c.o"
+  "CMakeFiles/xtask.dir/elbow_perturbation.c.o"
   "CMakeFiles/xtask.dir/turing_playback_task.c.o"
   "CMakeFiles/xtask.dir/turing_test_task.c.o"
   "CMakeFiles/xtask.dir/dragging_PD_gravity_compensation_task.c.o"
-  "CMakeFiles/xtask.dir/elbow_perturbation.c.o"
   "xtask.pdb"
   "xtask"
 )

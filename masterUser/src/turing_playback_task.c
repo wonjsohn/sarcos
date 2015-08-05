@@ -39,12 +39,13 @@ Remarks:
 // local variables
 static double start_time = 0.0;
 static double emgTrig = 0.0;
-//static int dataFlag;
+static int dataFlag;
 static SL_DJstate  target[N_DOFS+1];
 static double this_time = 0.00, last_time = 0.00, mov_time = 0.00, some_time = 0.00;
 static double start_elbow_angle = 1.571; //1.571rad = 90deg
 static int direction = 0, udFlag = 0;
 static int ivar = 0;
+
 
 static int k = 0; //index for posArray read from txt. 
 
@@ -80,7 +81,7 @@ add_turing_playback_task( void )
 {
   int i, j;
  
-  addTask("Sturing_playback_task", init_turing_playback_task,
+  addTask("Turing_playback_task", init_turing_playback_task,
 	   run_turing_playback_task, change_turing_playback_task);
 
 }    
@@ -107,6 +108,7 @@ init_turing_playback_task(void)
   int ans;
   char string[100];
   static int firsttime = TRUE;
+  dataFlag = 0;
 
   if (firsttime){
     firsttime = FALSE;
@@ -133,7 +135,7 @@ init_turing_playback_task(void)
   updateOscVars();
  
   // clear start data collection flag
-  //dataFlag = 0;
+ //dataFlag = 0;
 
 
 
@@ -264,8 +266,8 @@ init_turing_playback_task(void)
   printf("Input var = %i\n",ivar);
 
   // start data collection
-  scd();
-  printf("Data collection started\n");
+  //scd();
+  //printf("Data collection started\n");
   return TRUE;
 }
 
@@ -292,7 +294,7 @@ run_turing_playback_task(void)
   int j, i, dof;
   double task_time;
   double wait_time = 5;
-  //double trigg_start, trigg_dur;
+  double trigg_start, trigg_dur;
   //double start_elbow_angle;
   double def_elbow_angle = 1.571; //1.571rad = 90deg
   double shift = 0.2; //time shift for position
@@ -307,20 +309,20 @@ run_turing_playback_task(void)
 
   /////////////////////////////////////////////////////////////////////////////////////////////
   // trigger parameters
-  //trigg_start = 1.0; //trigger start time (s)
+  trigg_start = 0.001; //trigger start time (s)
   //trigg_dur = 0.5;  // duration of the pulse (s)
   /////////////////////////////////////////////////////////////////////////////////////////////
 
   // Task parameters
   task_time = task_servo_time - start_time;
 
- /*// Tirgger event for starting EMG recording ///////////////////////////////////////////////
-  if (task_time >= trigg_start && dataFlag == 0)
+ // Tirgger event for starting EMG recording ///////////////////////////////////////////////
+  if ((task_time >= trigg_start) && (dataFlag == 0 ))
   {
 	setOsc(d2a_cr,75.00);
 	emgTrig = 5.0;
 	dataFlag = 1;
-	printf("Data collection started\n");
+	printf("EMG Data collection started\n");
 	scd(); // start data collection; manually input stopcd and then saveData from console
   }
   else
@@ -330,7 +332,7 @@ run_turing_playback_task(void)
 	setOsc(d2a_cr,50.00);
 	emgTrig = 0.0;
 	}
-   }*/////////////////////////////////////////////////////////////////////////////////////////
+   }////////////////////////////////////////////////////////////////////////////////////////
 
   // osciallates one DOF
   //dof = 4; // degree of freedom to rotate

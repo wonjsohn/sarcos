@@ -7,11 +7,11 @@ SET(CMAKE_DEPENDS_LANGUAGES
 SET(CMAKE_DEPENDS_CHECK_C
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/dragging_PD_gravity_compensation_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/dragging_PD_gravity_compensation_task.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/elbow_perturbation.c.o"
+  "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/fpga_task.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/initUserTasks.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/initUserTasks.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/sample_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/sample_task.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/sample_trigger.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/sample_trigger.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_playback_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/turing_playback_task.c.o"
-  "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/turing_record_task.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_test_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/turing_test_task.c.o"
   "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/vision_calibration_task.c" "/Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles/xtask.dir/vision_calibration_task.c.o"
   )

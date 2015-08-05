@@ -1,7 +1,6 @@
-#export LAB_ROOT=/Network/Servers/duerer/guest/prog
-#export PROG_ROOT=/Network/Servers/duerer/guest/prog
- export LAB_ROOT=/home/guest/prog
-export PROG_ROOT=/home/guest/prog
+export LAB_ROOT=/Network/Servers/duerer/Volumes/duerer/guest/prog
+export PROG_ROOT=/Network/Servers/duerer/Volumes/duerer/guest/prog
+ 
 export HOST=`hostname` 
 
 # Remove everything following the "-" in the MACHTYPE 

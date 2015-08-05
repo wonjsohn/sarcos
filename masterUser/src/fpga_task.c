@@ -381,7 +381,7 @@ for (i=1; i<=N_DOFS; ++i)
   //   SL_InverseDynamics(joint_state, joint_des_state, endeff);
     SL_InvDynNE(joint_state,joint_des_state,endeff,&base_state,&base_orient);
 
-     joint_des_state[R_EB].uff += tmpdata; // torque  += may be too slow for the reflex? 
+     joint_des_state[R_EB].uff += tmpdata; // 
     printf("input torque to robot= %f\n", tmpdata);  // 
   
     

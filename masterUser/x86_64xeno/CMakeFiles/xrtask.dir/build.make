@@ -161,32 +161,55 @@ CMakeFiles/xrtask.dir/sample_trigger.c.o.provides: CMakeFiles/xrtask.dir/sample_
 
 CMakeFiles/xrtask.dir/sample_trigger.c.o.provides.build: CMakeFiles/xrtask.dir/sample_trigger.c.o
 
-CMakeFiles/xrtask.dir/turing_record_task.c.o: CMakeFiles/xrtask.dir/flags.make
-CMakeFiles/xrtask.dir/turing_record_task.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c
+CMakeFiles/xrtask.dir/fpga_task.c.o: CMakeFiles/xrtask.dir/flags.make
+CMakeFiles/xrtask.dir/fpga_task.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c
 	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_6)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/turing_record_task.c.o"
-	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/turing_record_task.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/fpga_task.c.o"
+	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/fpga_task.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c
 
-CMakeFiles/xrtask.dir/turing_record_task.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/xrtask.dir/turing_record_task.c.i"
-	gcc  $(C_DEFINES) $(C_FLAGS) -E /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c > CMakeFiles/xrtask.dir/turing_record_task.c.i
+CMakeFiles/xrtask.dir/fpga_task.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/xrtask.dir/fpga_task.c.i"
+	gcc  $(C_DEFINES) $(C_FLAGS) -E /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c > CMakeFiles/xrtask.dir/fpga_task.c.i
 
-CMakeFiles/xrtask.dir/turing_record_task.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/xrtask.dir/turing_record_task.c.s"
-	gcc  $(C_DEFINES) $(C_FLAGS) -S /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c -o CMakeFiles/xrtask.dir/turing_record_task.c.s
+CMakeFiles/xrtask.dir/fpga_task.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/xrtask.dir/fpga_task.c.s"
+	gcc  $(C_DEFINES) $(C_FLAGS) -S /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c -o CMakeFiles/xrtask.dir/fpga_task.c.s
 
-CMakeFiles/xrtask.dir/turing_record_task.c.o.requires:
-.PHONY : CMakeFiles/xrtask.dir/turing_record_task.c.o.requires
+CMakeFiles/xrtask.dir/fpga_task.c.o.requires:
+.PHONY : CMakeFiles/xrtask.dir/fpga_task.c.o.requires
 
-CMakeFiles/xrtask.dir/turing_record_task.c.o.provides: CMakeFiles/xrtask.dir/turing_record_task.c.o.requires
-	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/turing_record_task.c.o.provides.build
-.PHONY : CMakeFiles/xrtask.dir/turing_record_task.c.o.provides
+CMakeFiles/xrtask.dir/fpga_task.c.o.provides: CMakeFiles/xrtask.dir/fpga_task.c.o.requires
+	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/fpga_task.c.o.provides.build
+.PHONY : CMakeFiles/xrtask.dir/fpga_task.c.o.provides
 
-CMakeFiles/xrtask.dir/turing_record_task.c.o.provides.build: CMakeFiles/xrtask.dir/turing_record_task.c.o
+CMakeFiles/xrtask.dir/fpga_task.c.o.provides.build: CMakeFiles/xrtask.dir/fpga_task.c.o
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.o: CMakeFiles/xrtask.dir/flags.make
+CMakeFiles/xrtask.dir/elbow_perturbation.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c
+	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/elbow_perturbation.c.o"
+	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/elbow_perturbation.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/xrtask.dir/elbow_perturbation.c.i"
+	gcc  $(C_DEFINES) $(C_FLAGS) -E /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c > CMakeFiles/xrtask.dir/elbow_perturbation.c.i
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/xrtask.dir/elbow_perturbation.c.s"
+	gcc  $(C_DEFINES) $(C_FLAGS) -S /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c -o CMakeFiles/xrtask.dir/elbow_perturbation.c.s
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires:
+.PHONY : CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides: CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
+	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides.build
+.PHONY : CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides
+
+CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides.build: CMakeFiles/xrtask.dir/elbow_perturbation.c.o
 
 CMakeFiles/xrtask.dir/turing_playback_task.c.o: CMakeFiles/xrtask.dir/flags.make
 CMakeFiles/xrtask.dir/turing_playback_task.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_playback_task.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/turing_playback_task.c.o"
 	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/turing_playback_task.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_playback_task.c
 
@@ -209,7 +232,7 @@ CMakeFiles/xrtask.dir/turing_playback_task.c.o.provides.build: CMakeFiles/xrtask
 
 CMakeFiles/xrtask.dir/turing_test_task.c.o: CMakeFiles/xrtask.dir/flags.make
 CMakeFiles/xrtask.dir/turing_test_task.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_test_task.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_8)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_9)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/turing_test_task.c.o"
 	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/turing_test_task.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_test_task.c
 
@@ -232,7 +255,7 @@ CMakeFiles/xrtask.dir/turing_test_task.c.o.provides.build: CMakeFiles/xrtask.dir
 
 CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o: CMakeFiles/xrtask.dir/flags.make
 CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/dragging_PD_gravity_compensation_task.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_9)
+	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_10)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o"
 	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/dragging_PD_gravity_compensation_task.c
 
@@ -253,29 +276,6 @@ CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o.provides: CMakeF
 
 CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o.provides.build: CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o
 
-CMakeFiles/xrtask.dir/elbow_perturbation.c.o: CMakeFiles/xrtask.dir/flags.make
-CMakeFiles/xrtask.dir/elbow_perturbation.c.o: /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/x86_64xeno/CMakeFiles $(CMAKE_PROGRESS_10)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/xrtask.dir/elbow_perturbation.c.o"
-	gcc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/xrtask.dir/elbow_perturbation.c.o   -c /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c
-
-CMakeFiles/xrtask.dir/elbow_perturbation.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/xrtask.dir/elbow_perturbation.c.i"
-	gcc  $(C_DEFINES) $(C_FLAGS) -E /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c > CMakeFiles/xrtask.dir/elbow_perturbation.c.i
-
-CMakeFiles/xrtask.dir/elbow_perturbation.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/xrtask.dir/elbow_perturbation.c.s"
-	gcc  $(C_DEFINES) $(C_FLAGS) -S /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c -o CMakeFiles/xrtask.dir/elbow_perturbation.c.s
-
-CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires:
-.PHONY : CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
-
-CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides: CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
-	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides.build
-.PHONY : CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides
-
-CMakeFiles/xrtask.dir/elbow_perturbation.c.o.provides.build: CMakeFiles/xrtask.dir/elbow_perturbation.c.o
-
 # Object files for target xrtask
 xrtask_OBJECTS = \
 "CMakeFiles/xrtask.dir/initUserTasks.c.o" \
@@ -283,11 +283,11 @@ xrtask_OBJECTS = \
 "CMakeFiles/xrtask.dir/sample_task_cpp.cpp.o" \
 "CMakeFiles/xrtask.dir/vision_calibration_task.c.o" \
 "CMakeFiles/xrtask.dir/sample_trigger.c.o" \
-"CMakeFiles/xrtask.dir/turing_record_task.c.o" \
+"CMakeFiles/xrtask.dir/fpga_task.c.o" \
+"CMakeFiles/xrtask.dir/elbow_perturbation.c.o" \
 "CMakeFiles/xrtask.dir/turing_playback_task.c.o" \
 "CMakeFiles/xrtask.dir/turing_test_task.c.o" \
-"CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o" \
-"CMakeFiles/xrtask.dir/elbow_perturbation.c.o"
+"CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o"
 
 # External object files for target xrtask
 xrtask_EXTERNAL_OBJECTS =
@@ -297,11 +297,11 @@ xrtask: CMakeFiles/xrtask.dir/sample_task.c.o
 xrtask: CMakeFiles/xrtask.dir/sample_task_cpp.cpp.o
 xrtask: CMakeFiles/xrtask.dir/vision_calibration_task.c.o
 xrtask: CMakeFiles/xrtask.dir/sample_trigger.c.o
-xrtask: CMakeFiles/xrtask.dir/turing_record_task.c.o
+xrtask: CMakeFiles/xrtask.dir/fpga_task.c.o
+xrtask: CMakeFiles/xrtask.dir/elbow_perturbation.c.o
 xrtask: CMakeFiles/xrtask.dir/turing_playback_task.c.o
 xrtask: CMakeFiles/xrtask.dir/turing_test_task.c.o
 xrtask: CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o
-xrtask: CMakeFiles/xrtask.dir/elbow_perturbation.c.o
 xrtask: CMakeFiles/xrtask.dir/build.make
 xrtask: CMakeFiles/xrtask.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable xrtask"
@@ -316,11 +316,11 @@ CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/sample_task.c.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/sample_task_cpp.cpp.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/vision_calibration_task.c.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/sample_trigger.c.o.requires
-CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/turing_record_task.c.o.requires
+CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/fpga_task.c.o.requires
+CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/turing_playback_task.c.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/turing_test_task.c.o.requires
 CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/dragging_PD_gravity_compensation_task.c.o.requires
-CMakeFiles/xrtask.dir/requires: CMakeFiles/xrtask.dir/elbow_perturbation.c.o.requires
 .PHONY : CMakeFiles/xrtask.dir/requires
 
 CMakeFiles/xrtask.dir/clean:

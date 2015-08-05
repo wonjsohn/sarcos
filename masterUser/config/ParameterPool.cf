@@ -33,7 +33,7 @@ checkerboard_offset		0.01
 
 osc_enabled			1
 n_osc_plots                     4
-real_osc_enabled                0
+real_osc_enabled                1
 
 // contact specific display variables
 

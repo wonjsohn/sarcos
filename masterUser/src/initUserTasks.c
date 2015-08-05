@@ -52,22 +52,26 @@ initUserTasks(void)
   extern void add_sample_task_cpp(); 
   //extern void add_sample_dc(); 
   extern void add_sample_trigger();
-  extern void add_turing_record_task(); 
+  extern void add_fpga_task(); 
+  //extern void add_turing_record_task(); 
+  extern void add_elbow_perturbation();
   extern void add_turing_playback_task();  
   extern void add_turing_test_task(); 
   extern void add_dragging_PD_gravity_compensation_task();
-  extern void add_elbow_perturbation();
+
 
   add_vision_calibration_task();
   add_sample_task(); 
   add_sample_task_cpp(); 
   //add_sample_dc();
   add_sample_trigger(); 
-  add_turing_record_task();
+  add_fpga_task(); 
+  //add_turing_record_task();
+  add_elbow_perturbation();
   add_turing_playback_task();
   add_turing_test_task(); 
   add_dragging_PD_gravity_compensation_task();
-  add_elbow_perturbation();
+  
 
   // make the robot to the default posture
   if (!real_robot_flag)

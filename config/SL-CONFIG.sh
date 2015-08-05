@@ -1,3 +1,4 @@
+#export LAB_ROOT=/Network/Servers/duerer/Volumes/duerer/guest/prog
 export LAB_ROOT=/Network/Servers/duerer/Volumes/duerer/guest/prog
 export PROG_ROOT=/Network/Servers/duerer/Volumes/duerer/guest/prog
  

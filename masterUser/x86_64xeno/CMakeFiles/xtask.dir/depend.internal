@@ -43,6 +43,22 @@ CMakeFiles/xtask.dir/elbow_perturbation.c.o
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/utility.h
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/master/include/SL_user.h
  /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/elbow_perturbation.c
+CMakeFiles/xtask.dir/fpga_task.c.o
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_collect_data.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_dynamics.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_kinematics.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_man.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_shared_memory.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_system_headers.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_task_servo.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_tasks.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_vx_wrappers.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_xeno_headers.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/dta.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/utility.h
+ /Network/Servers/duerer/Volumes/duerer/clmc/prog/master/include/SL_user.h
+ /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/fpga_task.c
 CMakeFiles/xtask.dir/initUserTasks.c.o
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL.h
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_man.h
@@ -103,23 +119,6 @@ CMakeFiles/xtask.dir/turing_playback_task.c.o
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/utility.h
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/master/include/SL_user.h
  /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_playback_task.c
-CMakeFiles/xtask.dir/turing_record_task.c.o
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_collect_data.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_dynamics.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_kinematics.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_man.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_oscilloscope.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_shared_memory.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_system_headers.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_task_servo.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_tasks.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_vx_wrappers.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_xeno_headers.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/dta.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/utility.h
- /Network/Servers/duerer/Volumes/duerer/clmc/prog/master/include/SL_user.h
- /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser/src/turing_record_task.c
 CMakeFiles/xtask.dir/turing_test_task.c.o
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL.h
  /Network/Servers/duerer/Volumes/duerer/clmc/prog/include/SL_collect_data.h

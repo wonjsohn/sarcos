@@ -268,6 +268,33 @@ elbow_perturbation.c.s:
 	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/elbow_perturbation.c.s
 .PHONY : elbow_perturbation.c.s
 
+fpga_task.o: fpga_task.c.o
+.PHONY : fpga_task.o
+
+# target to build an object file
+fpga_task.c.o:
+	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/fpga_task.c.o
+	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/fpga_task.c.o
+.PHONY : fpga_task.c.o
+
+fpga_task.i: fpga_task.c.i
+.PHONY : fpga_task.i
+
+# target to preprocess a source file
+fpga_task.c.i:
+	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/fpga_task.c.i
+	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/fpga_task.c.i
+.PHONY : fpga_task.c.i
+
+fpga_task.s: fpga_task.c.s
+.PHONY : fpga_task.s
+
+# target to generate assembly for a file
+fpga_task.c.s:
+	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/fpga_task.c.s
+	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/fpga_task.c.s
+.PHONY : fpga_task.c.s
+
 initUserGraphics.o: initUserGraphics.c.o
 .PHONY : initUserGraphics.o
 
@@ -451,33 +478,6 @@ turing_playback_task.c.s:
 	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/turing_playback_task.c.s
 .PHONY : turing_playback_task.c.s
 
-turing_record_task.o: turing_record_task.c.o
-.PHONY : turing_record_task.o
-
-# target to build an object file
-turing_record_task.c.o:
-	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/turing_record_task.c.o
-	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/turing_record_task.c.o
-.PHONY : turing_record_task.c.o
-
-turing_record_task.i: turing_record_task.c.i
-.PHONY : turing_record_task.i
-
-# target to preprocess a source file
-turing_record_task.c.i:
-	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/turing_record_task.c.i
-	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/turing_record_task.c.i
-.PHONY : turing_record_task.c.i
-
-turing_record_task.s: turing_record_task.c.s
-.PHONY : turing_record_task.s
-
-# target to generate assembly for a file
-turing_record_task.c.s:
-	$(MAKE) -f CMakeFiles/xrtask.dir/build.make CMakeFiles/xrtask.dir/turing_record_task.c.s
-	$(MAKE) -f CMakeFiles/xtask.dir/build.make CMakeFiles/xtask.dir/turing_record_task.c.s
-.PHONY : turing_record_task.c.s
-
 turing_test_task.o: turing_test_task.c.o
 .PHONY : turing_test_task.o
 
@@ -556,6 +556,9 @@ help:
 	@echo "... elbow_perturbation.o"
 	@echo "... elbow_perturbation.i"
 	@echo "... elbow_perturbation.s"
+	@echo "... fpga_task.o"
+	@echo "... fpga_task.i"
+	@echo "... fpga_task.s"
 	@echo "... initUserGraphics.o"
 	@echo "... initUserGraphics.i"
 	@echo "... initUserGraphics.s"
@@ -577,9 +580,6 @@ help:
 	@echo "... turing_playback_task.o"
 	@echo "... turing_playback_task.i"
 	@echo "... turing_playback_task.s"
-	@echo "... turing_record_task.o"
-	@echo "... turing_record_task.i"
-	@echo "... turing_record_task.s"
 	@echo "... turing_test_task.o"
 	@echo "... turing_test_task.i"
 	@echo "... turing_test_task.s"
