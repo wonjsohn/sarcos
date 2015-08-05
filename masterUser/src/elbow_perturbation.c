@@ -186,6 +186,10 @@ init_elbow_perturbation(void)
     printf("start time = %.3f, task_servo_time = %.3f\n",
      start_time, task_servo_time);
     
+      // start data collection
+  scd();
+  printf("Data collection started\n");
+
 
 	return TRUE;
 }

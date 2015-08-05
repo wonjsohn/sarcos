@@ -6,13 +6,6 @@
 cd /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser
 
 %% playback_data
-%fname = 'd00099_ericCC';
-% input = 'd00102_record';
-% input = 'd00103_nohuman';   
-% input = 'd00104_patient';
-% input = 'd00106';
-% input = 'd00108_nohuman';   
-% input = 'd00109_patient';  
 % input = 'd00110_patient';  
 % input = 'd00115';  
 % input = 'd00116_Enrique';  
@@ -40,14 +33,16 @@ uff_pb_bl = D(st:samples,8);
 
 %% patient simulation
 % input_patient = 'd00123_ericStiff_patient';  % B
-input_patient = 'd00128_Sanger_spasticity';  % B
+%input_patient = 'd00128_Sanger_spasticity';  % B
+input_patient = 'd00135_newTrajectory';  % B
+
 fname_patient = input_patient;
 [D,vars,freq] = readSRCdata(fname_patient);
 ind= find(D(:,1), 1, 'last'); % find index of last non-zero's.  
 
 samples = ind% 13000;
 
-st = 100;
+
 time_pb_patient = D(st:samples,1);
 pos_pb_patient = D(st:samples,2);
 vel_pb_patient = D(st:samples,3);
@@ -56,7 +51,7 @@ u_pb_patient = D(st:samples,5);
 ufb_pb_patient = D(st:samples,6);
 load_pb_patient = D(st:samples,7);
 uff_pb_patient = D(st:samples,8);
-emg_Trig_patient = D(st:samples,13);
+%emg_Trig_patient = D(st:samples,13);
 
 
 %% control subject
@@ -67,9 +62,8 @@ fname_control = input_control;
 ind= find(D(:,1), 1, 'last'); % find index of last non-zero's.  
 samples = ind% 13000;
 
-st = 100;
-time_pb_control = D(st:samples,1);title( ['Pos / vel ', input, ' ' ] )
 
+time_pb_control = D(st:samples,1);
 pos_pb_control = D(st:samples,2);
 vel_pb_control = D(st:samples,3);
 acc_pb_control = D(st:samples,4);
@@ -77,11 +71,11 @@ u_pb_control = D(st:samples,5);
 ufb_pb_control = D(st:samples,6);
 load_pb_control = D(st:samples,7);
 uff_pb_control = D(st:samples,8);
-emg_Trig_control = D(st:samples,13);
+%emg_Trig_control = D(st:samples,13);
 
 %% plot diff
 
-endinx = 1000;%26000; % get common end index from figure
+endinx = 26000; % get common end index from figure
 
 figure(1)
 plot(time_pb_control(1:endinx), load_pb_control(1:endinx),time_pb_control(1:endinx), load_pb_bl(1:endinx), time_pb_control(1:endinx), load_pb_control(1:endinx)-load_pb_bl(1:endinx))
@@ -99,10 +93,15 @@ ylim([-20 20])
 
 % input = 'd00126_Sanger_control';   % A
 % input = 'd00128_Sanger_spasticity';  % B
-input = 'd00129';  % test
+input = 'd00135_newTrajectory';  
 
 % 
 % 
+%% EMG recording (yes or no)
+emgYN = menu('Choose a mode','Yes EMG','No EMG'); % yes = 1, no = 2
+% mode setting 
+
+
 %% menu selection 
 choice = menu('Choose a mode','view_recorded','get_selected_var', 'show_regression');
 
@@ -135,7 +134,7 @@ u_pb = D(st:samples,5);
 ufb_pb = D(st:samples,6);
 load_pb = D(st:samples,7);
 uff_pb = D(st:samples,8);
-emg_Trig = D(st:samples,13);
+%emg_Trig = D(st:samples,13);
 
 
 
@@ -191,7 +190,7 @@ diff_load = load_pb(1:endinx)-load_pb_bl(1:endinx);
 if choice==3,
     plot(time_pb,load_pb,time_pb,u_pb, '--', time_pb,uff_pb,time_pb,ufb_pb, time_pb, regressedF, time_pb(1:endinx), diff_load, time_pb(1:endinx), emg_Trig(1:endinx))
 else
-    plot(time_pb,load_pb,time_pb,u_pb, '--', time_pb,uff_pb,time_pb,ufb_pb, emg_Trig)
+    plot(time_pb,load_pb,time_pb,u_pb, '--', time_pb,uff_pb,time_pb,ufb_pb)
 end
 grid on
 legend('load','u','uff','fb', 'regF', 'diff load', 'emgTrig')
