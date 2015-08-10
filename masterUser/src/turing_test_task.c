@@ -47,6 +47,7 @@ HANDLE hFile, handle, map;
 
 /* defines */
 #define  ARRAYLEN 	 10000
+#define  LUTLEN 	 200
 
 /* local variables */
 static double start_time = 0.0;
@@ -59,6 +60,8 @@ static double gainControl = 0.01;
 
 static int k = 0; //index for Array read from txt. 
 static double pos2DArray[3]; // (coeff0, coeff1, coeff2) : offset, poscoeff, velcoeff
+static double reflexLut[200][200];   //reflex force lookup table
+
 
 
 /* variables for filtering */
@@ -220,7 +223,82 @@ init_turing_test_task(void)
       printf("pos2dArray %i,  %f\n", l, pos2DArray[l][0]);
   }
 */
-printf("a0:%f, a1:%f, a2:%f\n", pos2DArray[0], pos2DArray[1],pos2DArray[2]);
+printf("a0:%f, a1:%f, a2:%f\n", pos2DArray[0], pos2DArray[1],pos2DArray[2]);  //this is for linear regression.
+
+
+
+
+
+ /* ======= loading loop table ========== */
+ // input file option to ask
+  // list files in directory
+
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(“lut_table/.”);
+    if (d)
+    {
+        while ((dir = readdir(d)) != NULL)
+        {
+            printf("%s\n", dir->d_name);
+        }
+        closedir(d);
+    }
+
+  // get user input 
+   char file_selected_vars[80];
+
+   printf ("Enter a file name to open: ");
+   scanf ("%s", file_selected_vars);
+   
+   
+  // read position array from txt.
+  char path[100] = "lut_table/";
+  strcat (path, file_lut_table);
+  FILE *fp = fopen(path, "r"); 
+  if (!fp) {
+    fprintf(stderr, "Can't open file.\n");
+    //exit(EXIT_FAILURE);
+  }
+
+
+  double temp;
+  int p = 0;
+ 
+
+//******* write a new code for line reading, delimeter ‘,’ and 200 per line. 
+    //reflexLut
+
+    //read lines 
+    const char s[2] = ",";
+    char *token;
+    int m;
+    if(fp != NULL)
+    {
+        char line[1600]; // per line
+        while(fgets(line, sizeof line, fp) != NULL)
+        {
+            token = strtok(line, s);
+            for(m=0;m<200;m++)
+            {
+                if(m==0)
+                {   
+                    printf("%s\t",token);
+                    token = strtok(NULL,s);
+		    pos2DArray[p][0] = atof(token);
+                } else {
+                    printf("%f\n",atof(token));
+		    pos2DArray[p][1] = atof(token);
+                }       
+            }
+	p++;
+        }
+        fclose(fp);
+    }
+
+
+
+ /* ========end of look up table loading =============*/
 
 
   // go to the target using inverse dynamics (ID)
@@ -383,7 +461,9 @@ for (i=1; i<=N_DOFS; ++i)
   //SL_InverseDynamics(joint_state, joint_des_state, endeff);
   SL_InvDynNE(joint_state,joint_des_state,endeff,&base_state,&base_orient);
  // uff += may not be correct way (too slow?) But we need that += to make the arm not drop. 
-  joint_des_state[R_EB].uff +=  (pos2DArray[0]+ pos2DArray[1]*omega0 + pos2DArray[2]*omega1)*gainControl *(-1); // + (loadCoef*torque)*1.0; //+ gravity;   // no gravity since it should have been taken care in playback - record stage. 
+ // joint_des_state[R_EB].uff +=  (pos2DArray[0]+ pos2DArray[1]*omega0 + pos2DArray[2]*omega1)*gainControl *(-1); // + (loadCoef*torque)*1.0; //+ gravity;   // no gravity since it should have been taken care in playback - record stage. 
+
+   joint_des_state[R_EB].uff +=  lut_mapping(omega0, omega1)*gainControl *(-1); // (pos and vel)
 
   return TRUE;
 }
@@ -462,6 +542,44 @@ extra_joint_state_filter(int i)
 //  return TRUE;
 //
 //}
+
+
+/*****************************************************************************
+******************************************************************************
+  Function Name	: look up table mapping 
+  Date			: Aug 2015
+
+  Remarks: Eric Won Joon Sohn, wonjsohn@gmail.com
+
+  does continuous data of pos and vel mapping to discrete lookup table of reflex
+
+******************************************************************************
+  Parameters:  (i: pos, vel, o: reflex force)
+
+ *****************************************************************************/
+static double 
+lut_mapping(double pos, double vel)
+{
+
+    int n;
+    int m;
+    n=floor(pos*100-30);  //0.3 to 2.3 -> 1 to 200
+    m=floor(vel*20+100);  //-5 to 5   -> 1 to 200
+    
+    //safe guard
+    if (n<1 || n >200) { 
+	n = 100; 
+	printf(“Index n out of range %i\t”, n);
+    }  // pick 
+    if (m<1 || m >200) {
+	m = 100;
+	printf(“Index m out of range %i\t”, m);
+    }
+    return reflexLut[n][m];
+}
+
+
+
 
 static int 
 change_turing_test_task(void)

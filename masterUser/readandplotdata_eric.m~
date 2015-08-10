@@ -237,4 +237,27 @@ ylim([-20 20])
 % ylim([2 22])
 
 
+%% fitting 
+
+[fitresult, gof] = NNInterpFit(pos_pb_cut, vel_pb_cut, diff_load_cut)
+%% create a lookup table to export to robot. 
+xinv = 0.001;% interval 
+vinv = 0.001;
+x = 0.3:xinv:2.3-xinv;  %2000 points
+v = -5.0:vinv:5.0-vinv; % 10000 points
+
+rs_x = resample(x', 1, 10); % 200 points
+rs_v = resample(v', 1, 50); % 400 points
+
+diff_load_lut=zeros(200,200);
+i=1;j=1;
+for i=1:length(rs_x),
+    for j=1:length(rs_v),
+      diff_load_lut(i,j)= fitresult(rs_x(i), rs_v(j));
+    end
+end
+
+mypath = 'selected_vars/';
+csvwrite(fullfile(mypath, A) ,diff_load_lut); % save selected variables
+
 
