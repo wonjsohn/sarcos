@@ -8,10 +8,10 @@ vinv = 0.001;
 x = 0.3:xinv:2.3-xinv;  %2000 points
 v = -5.0:vinv:5.0-vinv; % 10000 points
 
-rs_x = resample(x', 1, 10); % 200 points
-rs_v = resample(v', 1, 50); % 400 points
+rs_x = resample(x', 1, 100); % 20 points
+rs_v = resample(v', 1, 500); % 20 points
 
-diff_load_lut=zeros(200,200);
+diff_load_lut=zeros(20,20);
 i=1;j=1;
 for i=1:length(rs_x),
     for j=1:length(rs_v),

@@ -25,6 +25,7 @@ Remarks:
 #include "SL_filters.h"
 #include "SL_man.h"
 #include "time.h"
+#include <dirent.h>  // to list files in dir
 
 // file input output
 #include <stdlib.h>
@@ -47,7 +48,7 @@ HANDLE hFile, handle, map;
 
 /* defines */
 #define  ARRAYLEN 	 10000
-#define  LUTLEN 	 200
+#define  LUTROWLEN 20
 
 /* local variables */
 static double start_time = 0.0;
@@ -60,7 +61,7 @@ static double gainControl = 0.01;
 
 static int k = 0; //index for Array read from txt. 
 static double pos2DArray[3]; // (coeff0, coeff1, coeff2) : offset, poscoeff, velcoeff
-static double reflexLut[200][200];   //reflex force lookup table
+static double reflexLut[LUTROWLEN][LUTROWLEN];   //reflex force lookup table
 
 
 
@@ -84,6 +85,8 @@ static int  init_turing_test_task(void);
 static int  run_turing_test_task(void);
 static int  change_turing_test_task(void);
 static SL_DJstate	extra_joint_state_filter(int);
+static double  lut_mapping(double, double);
+
 
 /*****************************************************************************
 ******************************************************************************
@@ -235,7 +238,7 @@ printf("a0:%f, a1:%f, a2:%f\n", pos2DArray[0], pos2DArray[1],pos2DArray[2]);  //
 
     DIR *d;
     struct dirent *dir;
-    d = opendir(“lut_table/.”);
+    d = opendir("lut_table/.");
     if (d)
     {
         while ((dir = readdir(d)) != NULL)
@@ -246,56 +249,77 @@ printf("a0:%f, a1:%f, a2:%f\n", pos2DArray[0], pos2DArray[1],pos2DArray[2]);  //
     }
 
   // get user input 
-   char file_selected_vars[80];
+   char file_lut_table[80];
 
    printf ("Enter a file name to open: ");
-   scanf ("%s", file_selected_vars);
+   scanf ("%s", file_lut_table);
    
    
   // read position array from txt.
   char path[100] = "lut_table/";
   strcat (path, file_lut_table);
-  FILE *fp = fopen(path, "r"); 
-  if (!fp) {
+  FILE *fp2 = fopen(path, "r"); 
+  if (!fp2) {
     fprintf(stderr, "Can't open file.\n");
     //exit(EXIT_FAILURE);
   }
 
 
-  double temp;
-  int p = 0;
+  //double temp;
+  //int p = 0;
  
 
 //******* write a new code for line reading, delimeter ‘,’ and 200 per line. 
     //reflexLut
+  
+  const char s2[2] = ",";
+  char *tok;
+  int r, t;
+  if(fp2 != NULL) {  
+     char line[200];
+      t=0;
+     while(fgets(line, sizeof line, fp2) !=NULL) {
+          
+          //for (t=0;t<LUTROWLEN; t++) {
+              tok = strtok(line, s2); // get the first token
+              
+              
+              for (r=0;r<LUTROWLEN; r++) {
+                   if (r==0) {
+                       printf("%f\t",atof(tok));
+                       //reflexLut[t][r] =  atof(tok);
+                   }else  {
+                       tok = strtok(NULL, s2);  // walk thru the tokens
+                       printf("%f\t",atof(tok));
+                       //reflexLut[t][r] = atof(tok);
+                   }
+                   reflexLut[t][r] = atof(tok);
+               }
+               printf("\n");
+           //}
+           t++;
+       }
+       fclose(fp2);
+   }else {
+      perror(path);
+   }
 
-    //read lines 
-    const char s[2] = ",";
-    char *token;
-    int m;
-    if(fp != NULL)
-    {
-        char line[1600]; // per line
-        while(fgets(line, sizeof line, fp) != NULL)
-        {
-            token = strtok(line, s);
-            for(m=0;m<200;m++)
-            {
-                if(m==0)
-                {   
-                    printf("%s\t",token);
-                    token = strtok(NULL,s);
-		    pos2DArray[p][0] = atof(token);
-                } else {
-                    printf("%f\n",atof(token));
-		    pos2DArray[p][1] = atof(token);
-                }       
-            }
-	p++;
-        }
-        fclose(fp);
-    }
-
+   
+ //check the lut  
+  for (t=0;t<LUTROWLEN;t++) {
+      for (r=0;r<LUTROWLEN;r++) {
+          printf("%f ", reflexLut[t][r]);
+      }
+      printf("\n");
+  }
+  
+  // check mapping function
+  printf("\n%function checking... \n" ); 
+  printf("%f \n", lut_mapping(1.4, -4));  
+  printf("%f \n", lut_mapping(2.2, -2.3));  
+  printf("%f \n", lut_mapping(0.9, -4.00));  
+  printf("%f \n", lut_mapping(0.92, 0.8));  
+  printf("%f \n", lut_mapping(0.92, 2.832));    
 
 
  /* ========end of look up table loading =============*/
@@ -557,23 +581,23 @@ extra_joint_state_filter(int i)
   Parameters:  (i: pos, vel, o: reflex force)
 
  *****************************************************************************/
-static double 
-lut_mapping(double pos, double vel)
+static double lut_mapping(double pos, double vel)
 {
 
     int n;
     int m;
-    n=floor(pos*100-30);  //0.3 to 2.3 -> 1 to 200
-    m=floor(vel*20+100);  //-5 to 5   -> 1 to 200
-    
+    n=floor(pos*10-3);  //0.3 to 2.3 -> 1 to 20
+    m=floor(vel*2+10);  //-5 to 5   -> 1 to 20
+    printf("pos is %f ->%i\t", pos, n);
+    printf("vel is %f -> %i\n", vel, m);
     //safe guard
     if (n<1 || n >200) { 
-	n = 100; 
-	printf(“Index n out of range %i\t”, n);
+        n = 100; 
+        printf("Index pos out of range %i\t", n);
     }  // pick 
     if (m<1 || m >200) {
-	m = 100;
-	printf(“Index m out of range %i\t”, m);
+        m = 100;
+        printf("Index vel out of range %i\t", m);
     }
     return reflexLut[n][m];
 }
