@@ -24,9 +24,11 @@ ft = 'nearestinterp';
 % Fit model to data.
 [fitresult, gof] = fit( [xData, yData], zData, ft, 'Normalize', 'on' );
 
+
 % Plot fit with data.
 figure( 'Name', 'NNInterpFit' );
-h = plot( fitresult, [xData, yData], zData );
+% h = plot( fitresult, [xData, yData], zData );
+h = plot( fitresult);
 legend( h, 'NNInterpFit', 'diff_load_cut vs. pos_pb_cut, vel_pb_cut', 'Location', 'NorthEast' );
 % Label axes
 xlabel( 'pos_pb_cut' );

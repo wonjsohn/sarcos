@@ -39,7 +39,7 @@ Remarks:
 // local variables
 static double start_time = 0.0;
 static double emgTrig = 0.0;
-static int dataFlag;
+static int dataState;
 static SL_DJstate  target[N_DOFS+1];
 static double this_time = 0.00, last_time = 0.00, mov_time = 0.00, some_time = 0.00;
 static double start_elbow_angle = 1.571; //1.571rad = 90deg
@@ -108,7 +108,7 @@ init_turing_playback_task(void)
   int ans;
   char string[100];
   static int firsttime = TRUE;
-  dataFlag = 0;
+  dataState = 0;
 
   if (firsttime){
     firsttime = FALSE;
@@ -144,7 +144,7 @@ init_turing_playback_task(void)
 
     DIR *d;
     struct dirent *dir;
-    d = opendir("selected_vars/.");
+    d = opendir("selected_vars/trajectory/.");
     if (d)
     {
         while ((dir = readdir(d)) != NULL)
@@ -162,7 +162,7 @@ init_turing_playback_task(void)
    
    
   // read position array from txt.
-  char path[100] = "selected_vars/";
+  char path[100] = "selected_vars/trajectory/";
   strcat (path, file_selected_vars);
   FILE *fp = fopen(path, "r"); 
   if (!fp) {
@@ -266,8 +266,9 @@ init_turing_playback_task(void)
   printf("Input var = %i\n",ivar);
 
   // start data collection
-  //scd();
-  //printf("Data collection started\n");
+  setOsc(d2a_cr,50.00); //0V
+
+  printf("Data collection started\n");
   return TRUE;
 }
 
@@ -310,28 +311,32 @@ run_turing_playback_task(void)
   /////////////////////////////////////////////////////////////////////////////////////////////
   // trigger parameters
   trigg_start = 0.001; //trigger start time (s)
-  //trigg_dur = 0.5;  // duration of the pulse (s)
+  trigg_dur = 60.0;  // duration of the pulse (s)
   /////////////////////////////////////////////////////////////////////////////////////////////
 
   // Task parameters
   task_time = task_servo_time - start_time;
 
  // Tirgger event for starting EMG recording ///////////////////////////////////////////////
-  if ((task_time >= trigg_start) && (dataFlag == 0 ))
+  if ((task_time >= trigg_start) && (dataState == 0 ))
   {
-	setOsc(d2a_cr,75.00);
+	setOsc(d2a_cr,75.00); // 5V
 	emgTrig = 5.0;
-	dataFlag = 1;
+	dataState = 1;
+      printf("dataState is 1.\n");
+    scd();
 	printf("EMG Data collection started\n");
-	scd(); // start data collection; manually input stopcd and then saveData from console
-  }
-  else
-  {
-	if (task_time >= trigg_start+trigg_dur)
-	{
-	setOsc(d2a_cr,50.00);
+  }else if ((task_time >= trigg_start) && (task_time <= trigg_start+trigg_dur) && (dataState == 1 )) {
+    setOsc(d2a_cr,50.00); // 0V
 	emgTrig = 0.0;
-	}
+  }else if ((task_time >= trigg_start+trigg_dur) && (dataState == 1)){
+	setOsc(d2a_cr,75.00); //5V
+	emgTrig = 5.0;
+    dataState = 2;
+      printf("dataState is 2.\n");
+  }else {
+    setOsc(d2a_cr,50.00); // 0V
+    emgTrig = 0.0;    
    }////////////////////////////////////////////////////////////////////////////////////////
 
   // osciallates one DOF

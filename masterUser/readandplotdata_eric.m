@@ -3,9 +3,9 @@
 % clc
 
 %% go to the directory
-cd /Volumes/SANDISK64G/sarcos/masterUser
+%cd /Volumes/SANDISK64G/sarcos/masterUser
 
-%cd /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser
+cd /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser
 
 %% EMG recording (yes or no)
 emgYN = menu('Choose a mode','Yes EMG','No EMG'); % yes = 1, no = 2
@@ -19,7 +19,8 @@ emgYN = menu('Choose a mode','Yes EMG','No EMG'); % yes = 1, no = 2
 % input = 'd00118_sim_no_invdyn'; 
 % input = 'd00119_sim_invdyn'; 
 
-input_bl = 'd00120_nohuman'; % baseline
+input_bl = 'd00120_zero_baseline'; % baseline
+%input_bl = 'd00139_alpha_baseline'; % baseline
 fname_bl = input_bl;
 [D,vars,freq] = readSRCdata(fname_bl);
 ind= find(D(:,1), 1, 'last'); % find index of last non-zero's.  
@@ -37,10 +38,12 @@ load_pb_bl = D(st:samples,7);
 uff_pb_bl = D(st:samples,8);
 
 
-%% patient simulation
+%% patient 
 % input_patient = 'd00123_ericStiff_patient';  % B
-input_patient = 'd00127_Sanger_dystonia';  % B
-%input_patient = 'd00135_newTrajectory';  % B
+input_patient = 'd00155_alpha_CN_chair_1';  % B
+% input_patient = 'd00127_Sanger_dystonia';  % B
+
+
 
 fname_patient = input_patient;
 [D,vars,freq] = readSRCdata(fname_patient);
@@ -63,7 +66,7 @@ end
 
 %% control subject
 % input_control = 'd00122_eric_control';  % B
-input_control = 'd00126_Sanger_control';  % B
+input_control = 'd00148_alpha_Eric_control';  % B
 fname_control = input_control;
 [D,vars,freq] = readSRCdata(fname_control);
 ind= find(D(:,1), 1, 'last'); % find index of last non-zero's.  
@@ -83,7 +86,7 @@ if emgYN == 1,
 end
 %% plot diff
 
-endinx = 25500; % get common end index from figure
+endinx = 25000; % get common end index from figure
 
 
 % 
@@ -101,9 +104,35 @@ endinx = 25500; % get common end index from figure
 
 %%  
 
-% input = 'd00126_Sanger_control';   % A
-input = 'd00127_Sanger_dystonia';  % B
-%input = 'd00135_newTrajectory';  
+% input = 'd00146_zero_Enrique_control';   % A
+%input = 'd00147_zero_Enrique_control2';   % A
+% input = 'd00140_alpha_Enrique_control';   % A
+% input = 'd00148_alpha_Eric_control';   % A
+% input = 'd00149_alpha_Eric_dystonia';   % A
+% input = 'd00150_alpha_Eric_spasticity';   % A
+
+% input = 'd00151_alpha_Eric_control_LH';   % A
+% input = 'd00152_alpha_Eric_dystonia_LH';   % A
+% input = 'd00153_alpha_Eric_spasticity_LH';   % A
+
+
+% input = 'd00155_alpha_CN_chair_1';   % A
+
+% input = 'd00156_alpha_CN_chair_2';   % A
+% input = 'd00157_zero_CN_chair_1';   % A
+% input = 'd00158_alpha_JP_1';   % A
+% input = 'd00159_zero_JP_1';   % A
+% input = 'd00160_alpha_JP_2';   % A
+input = 'd00162_zero_JP_3';   % A
+
+
+
+% input = 'd00141_alpha_Enrique_dystonia';  % B
+% input = 'd00142_alpha_Enrique_spasticity';  % B
+% input = 'd00139_alpha_baseline';
+% input = 'd00138_trajectory_alpha';  
+% input = 'd00145_alpha_AM_dystonia';
+% input = 'd00144_alpha_AM_control';
 
 % 
 % 
@@ -111,7 +140,7 @@ input = 'd00127_Sanger_dystonia';  % B
 
 
 %% menu selection 
-choice = menu('Choose a mode','view_recorded','get_selected_var', 'show_regression');
+choice = menu('Choose a mode','get traj 4 playback(1st time)','get_selected_var', 'plot only');
 
 %% mode setting 
 if choice==1,
@@ -164,6 +193,8 @@ end
 %% mode setting 
 A = [fname, '_selected_vars.txt'];    % trajectory recording phase
 if choice==1,
+    mypath = 'selected_vars/trajectory/';
+    csvwrite(fullfile(mypath, A) ,playback_data); % save selected variables
 elseif choice==2, 
     mypath = 'selected_vars/';
     csvwrite(fullfile(mypath, A) ,playback_data); % save selected variables
@@ -178,16 +209,16 @@ end
 
 
 
-%% regression test
-if choice==3,
-    filename_read = ['regressionData/', fname, '_selected_vars', '_regressionCoeff.txt']
-    M = dlmread(filename_read, ',')
-
-    a0 = M(1)
-    a1 = M(2)
-    a2 = M(3)
-    regressedF = a0 + a1* pos_pb + a2 * vel_pb;
-end
+% %% regression test
+% if choice==3,
+%     filename_read = ['regressionData/', fname, '_selected_vars', '_regressionCoeff.txt']
+%     M = dlmread(filename_read, ',')
+% 
+%     a0 = M(1)
+%     a1 = M(2)
+%     a2 = M(3)
+%     regressedF = a0 + a1* pos_pb + a2 * vel_pb;
+% end
 
 %% plot
 % close all
@@ -202,25 +233,25 @@ legend('pos', 'vel')
 ylim([-6 6])
 subplot(2,1,2)
 
-refressedF_cut = regressedF(1:endinx);
+% refressedF_cut = regressedF(1:endinx);
 
 %diff_load = load_pb(1:endinx)-load_pb_bl(1:endinx);
 if choice==3,
     if emgYN == 1, 
-        plot(time_pb(1:endinx),load_pb(1:endinx),time_pb(1:endinx),u_pb(1:endinx), '--', time_pb(1:endinx),uff_pb(1:endinx),time_pb(1:endinx),ufb_pb(1:endinx), time_pb(1:endinx), refressedF_cut, time_pb(1:endinx), diff_load_cut, time_pb(1:endinx), emg_Trig(1:endinx))
+        plot(time_pb(1:endinx),load_pb(1:endinx),time_pb(1:endinx),u_pb(1:endinx), '--', time_pb(1:endinx),uff_pb(1:endinx),time_pb(1:endinx),ufb_pb(1:endinx),  time_pb(1:endinx), diff_load_cut, time_pb(1:endinx), emg_Trig(1:endinx))
     else
-        plot(time_pb(1:endinx),load_pb(1:endinx),time_pb(1:endinx),u_pb(1:endinx), '--', time_pb(1:endinx),uff_pb(1:endinx),time_pb(1:endinx),ufb_pb(1:endinx), time_pb(1:endinx), refressedF_cut, time_pb(1:endinx), diff_load_cut)
+        plot(time_pb(1:endinx),load_pb(1:endinx),time_pb(1:endinx),u_pb(1:endinx), '--', time_pb(1:endinx),uff_pb(1:endinx),time_pb(1:endinx),ufb_pb(1:endinx),  time_pb(1:endinx), diff_load_cut)
     end
 else
     plot(time_pb(1:endinx),load_pb(1:endinx),time_pb(1:endinx),u_pb(1:endinx), '--', time_pb(1:endinx),uff_pb(1:endinx),time_pb(1:endinx),ufb_pb(1:endinx))
 end
 grid on
 if emgYN == 1, 
-    legend('load','u','uff','fb', 'regF', 'diff load', 'emgTrig')
+    legend('load','u','uff','fb',  'diff load', 'emgTrig')
 else
-    legend('load','u','uff','fb', 'regF', 'diff load')
+    legend('load','u','uff','fb',  'diff load')
 end
-title([num2str(choice), ', regF= ', num2str(a0),'+(', num2str(a1), ')x + (', num2str(a2), ')xdot'])
+% title([num2str(choice), ', regF= ', num2str(a0),'+(', num2str(a1), ')x + (', num2str(a2), ')xdot'])
 ylim([-20 20])
 
 %%

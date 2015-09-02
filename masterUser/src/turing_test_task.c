@@ -48,7 +48,7 @@ HANDLE hFile, handle, map;
 
 /* defines */
 #define  ARRAYLEN 	 10000
-#define  LUTROWLEN 20
+#define  LUTROWLEN 40
 
 /* local variables */
 static double start_time = 0.0;
@@ -276,7 +276,7 @@ printf("a0:%f, a1:%f, a2:%f\n", pos2DArray[0], pos2DArray[1],pos2DArray[2]);  //
   char *tok;
   int r, t;
   if(fp2 != NULL) {  
-     char line[200];
+     char line[400];
       t=0;
      while(fgets(line, sizeof line, fp2) !=NULL) {
           
@@ -586,19 +586,21 @@ static double lut_mapping(double pos, double vel)
 
     int n;
     int m;
-    n=floor(pos*10-3);  //0.3 to 2.3 -> 1 to 20
-    m=floor(vel*2+10);  //-5 to 5   -> 1 to 20
-    printf("pos is %f ->%i\t", pos, n);
-    printf("vel is %f -> %i\n", vel, m);
+    n=floor(pos*20-6);  //0.3 to 2.3 -> 1 to 40
+    m=floor(vel*4+20);  //-5 to 5   -> 1 to 40
+    //printf("pos is %f ->%i\t", pos, n);
+    //printf("vel is %f -> %i\n", vel, m);
     //safe guard
-    if (n<1 || n >200) { 
-        n = 100; 
+    if (n<1 || n >LUTROWLEN) { 
+        n = floor(LUTROWLEN/2);   // mid value
         printf("Index pos out of range %i\t", n);
     }  // pick 
-    if (m<1 || m >200) {
-        m = 100;
+    if (m<1 || m >LUTROWLEN) {
+        m =  floor(LUTROWLEN/2);  // mid value
         printf("Index vel out of range %i\t", m);
     }
+    
+    printf("reflex forceat %i, %i = %f\n", n, m,  reflexLut[n][m]);
     return reflexLut[n][m];
 }
 
