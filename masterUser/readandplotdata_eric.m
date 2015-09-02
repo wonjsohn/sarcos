@@ -116,14 +116,14 @@ endinx = 25000; % get common end index from figure
 % input = 'd00153_alpha_Eric_spasticity_LH';   % A
 
 
-% input = 'd00155_alpha_CN_chair_1';   % A
+%input = 'd00155_alpha_CN_chair_1';   % A
 
 % input = 'd00156_alpha_CN_chair_2';   % A
-% input = 'd00157_zero_CN_chair_1';   % A
+input = 'd00157_zero_CN_chair_1';   % A
 % input = 'd00158_alpha_JP_1';   % A
 % input = 'd00159_zero_JP_1';   % A
 % input = 'd00160_alpha_JP_2';   % A
-input = 'd00162_zero_JP_3';   % A
+% input = 'd00162_zero_JP_3';   % A
 
 
 
