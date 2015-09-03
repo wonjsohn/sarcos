@@ -19,8 +19,8 @@ emgYN = menu('Choose a mode','Yes EMG','No EMG'); % yes = 1, no = 2
 % input = 'd00118_sim_no_invdyn'; 
 % input = 'd00119_sim_invdyn'; 
 
-input_bl = 'd00120_zero_baseline'; % baseline
-%input_bl = 'd00139_alpha_baseline'; % baseline
+% input_bl = 'd00120_zero_baseline'; % baseline
+input_bl = 'd00139_alpha_baseline'; % baseline
 fname_bl = input_bl;
 [D,vars,freq] = readSRCdata(fname_bl);
 ind= find(D(:,1), 1, 'last'); % find index of last non-zero's.  
@@ -116,10 +116,10 @@ endinx = 25000; % get common end index from figure
 % input = 'd00153_alpha_Eric_spasticity_LH';   % A
 
 
-%input = 'd00155_alpha_CN_chair_1';   % A
+% input = 'd00155_alpha_CN_chair_1';   % A
 
-% input = 'd00156_alpha_CN_chair_2';   % A
-input = 'd00157_zero_CN_chair_1';   % A
+input = 'd00156_alpha_CN_chair_2';   % A
+% input = 'd00157_zero_CN_chair_1';   % A
 % input = 'd00158_alpha_JP_1';   % A
 % input = 'd00159_zero_JP_1';   % A
 % input = 'd00160_alpha_JP_2';   % A

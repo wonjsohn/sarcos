@@ -13,11 +13,13 @@ rs_v = resample(v', 1, 10000/rowlen); % points in lut
 
 fake_lut=zeros(rowlen,rowlen);
 
-% sudden spastic catch, velocity threshold
-posSlope = 0.8;
-velSlope = 1.1;
-pos_reflex = @(x) posSlope*(-0.4 + 4*x)
-vel_reflex = @(x) velSlope*x*((x>2.0) + (x<-2.0)) ;
+%% Spasticity : sudden spastic catch, velocity threshold
+posSlope = 15.0;
+posOffset = -25.0;
+velSlope = 10.0;
+velThreshold = 1.5;
+pos_reflex = @(x) posOffset + posSlope*(x)
+vel_reflex = @(x) velSlope*x*((x>velThreshold) + (x<(-1*velThreshold)));
 %h=@(t) a*(t>5)+b*(t<=5)
 
 
@@ -29,11 +31,10 @@ for i=1:length(rs_x),
 end
 
 
-
-
 figure;
 %% smoothing interpolation to reduce instability in robot. 
-fname = 'fake_spasticity1';
+fname = 'fake_spasticity1'; %use ctp gain 1.5
+
 
 % diff_load_lut_interp = interp2(diff_load_lut,2, 'cubic'); % interp spline to smooth out the surface (prevent jerky movement) 
 h = 1/100*ones(5,5);
@@ -45,8 +46,8 @@ title(fname);
 xlabel('vel')
 ylabel('pos')
 zlabel('reflex')
-zlim([-1 2.5])
-caxis([-1, 2.5])
+zlim([-8 12.5])
+caxis([-8, 12.5])
 
 %% resample smooth curve to low res to export to C lookup table. 
 fake_lut_filtered_resampled = imresize(fake_lut_filtered,[rowlen rowlen]);
