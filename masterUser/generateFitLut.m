@@ -28,21 +28,28 @@ figure;
 %% smoothing interpolation to reduce instability in robot. 
 
 % diff_load_lut_interp = interp2(diff_load_lut,2, 'cubic'); % interp spline to smooth out the surface (prevent jerky movement) 
-h = 1/100*ones(5,5);
-diff_load_lut_filtered = filter2(h,diff_load_lut);
+h = 1/10*ones(5,5);
+diff_load_lut_filtered = filter2(h,diff_load_lut, 'valid');
 
 
-surf( diff_load_lut_filtered);
+% surf( diff_load_lut_filtered);
 title(fname);
 xlabel('vel')
 ylabel('pos')
 zlabel('reflex')
-zlim([-1 2.5])
-caxis([-1, 2.5])
+zlim([-10 25])
+caxis([-10, 25])
 
 %% resample smooth curve to low res to export to C lookup table. 
 diff_load_lut_filtered_resampled = imresize(diff_load_lut_filtered,[rowlen rowlen]);
-% surf( diff_load_lut_interp_resampled);
+
+surf( diff_load_lut_filtered_resampled);
+title(fname);
+xlabel('vel')
+ylabel('pos')
+zlabel('reflex')
+zlim([-10 25])
+caxis([-10, 25])
 
 
 mypath = 'lut_table/';

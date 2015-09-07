@@ -3,9 +3,9 @@
 % clc
 
 %% go to the directory
-%cd /Volumes/SANDISK64G/sarcos/masterUser
+cd /Volumes/SANDISK64G/sarcos/masterUser
 
-cd /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser
+%cd /Network/Servers/duerer/Volumes/duerer/guest/prog/masterUser
 
 %% EMG recording (yes or no)
 emgYN = menu('Choose a mode','Yes EMG','No EMG'); % yes = 1, no = 2
@@ -40,7 +40,7 @@ uff_pb_bl = D(st:samples,8);
 
 %% patient 
 % input_patient = 'd00123_ericStiff_patient';  % B
-input_patient = 'd00155_alpha_CN_chair_1';  % B
+input_patient = 'd00156_alpha_CN_chair_2';  % B
 % input_patient = 'd00127_Sanger_dystonia';  % B
 
 
@@ -104,7 +104,9 @@ endinx = 25000; % get common end index from figure
 
 %%  
 
-% input = 'd00146_zero_Enrique_control';   % A
+%input = 'd00139_alpha_baseline'; % 
+
+%input = 'd00146_zero_Enrique_control';   % A
 %input = 'd00147_zero_Enrique_control2';   % A
 % input = 'd00140_alpha_Enrique_control';   % A
 % input = 'd00148_alpha_Eric_control';   % A
