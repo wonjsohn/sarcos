@@ -14,9 +14,9 @@ rs_v = resample(v', 1, 10000/rowlen); % points in lut
 fake_lut=zeros(rowlen,rowlen);
 
 %% Spasticity : sudden spastic catch, velocity threshold
-posSlope = 2.5;
-posOffset = -2.0;
-velSlope = 1.3;
+posSlope = 8.5;
+posOffset = -10.0;
+velSlope = 2.0;
 velThreshold = 1.5;
 pos_reflex = @(x) posOffset + posSlope*(x)
 vel_reflex = @(x) velSlope*x*(1.3*(x>velThreshold) + 0.49*(x<(-1*velThreshold)));
@@ -59,8 +59,8 @@ title(fname);
 xlabel('vel')
 ylabel('pos')
 zlabel('reflex')
-zlim([-10 25])
-caxis([-10, 25])
+zlim([-30 45])
+caxis([-30, 45])
 
 
 
